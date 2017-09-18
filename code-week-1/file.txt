@@ -1,0 +1,16 @@
+
+zip(x_data,y_data) [0:5] #creates tuples. shows first 5
+
+loss = tf.reduce_mean(tf.square(y - y_data)) #mean-squared error.
+
+optimizer = tf.train.GradientDescentOptimizer(0.5) #.5 is the size of the steps. fixed learning rate
+
+stock price not good for linear regresion.
+obesity to amount of pizza eaten per week = linear function
+
+iris - popular ml dataset, for flowers
+trainX, testX, trainY, testY = train_test_split(iris_X, iris_y, test_size=0.33, random_state=42) #trains with 66% of data
+
+numEpochs = 700 #full cycle of process of calculating error, updating weight according to gradient, updating gradient
+
+increasing learning rate decreased cost, more accurate, same number of steps
