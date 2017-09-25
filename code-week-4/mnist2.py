@@ -17,14 +17,16 @@ y_ = tf.placeholder(tf.float32, shape=[None, class_output])
 #last number is frequency/image channels. for color. 1 is grayscale.
 #first one is batch number
 x_image = tf.reshape(x, [-1,28,28,1])
-print(x_image);
+print(x_image)
 
 #32 is number of outputs
 #learn 32 different ways of reading every number
 #32 different filters to be produced from one image
 #W_conv are weights
-W_conv1 = tf.Variable(tf.truncated_normal([5, 5, 1, 32], stddev=0.1))
-b_conv1 = tf.Variable(tf.constant(0.1, shape=[32])) # need 32 biases for 32 outputs
+# W_conv1 = tf.Variable(tf.truncated_normal([5, 5, 1, 32], stddev=0.1))
+W_conv1 = tf.Variable(tf.truncated_normal([5, 5, 1, 5], stddev=0.1))
+# b_conv1 = tf.Variable(tf.constant(0.1, shape=[32])) # need 32 biases for 32 outputs
+b_conv1 = tf.Variable(tf.constant(0.1, shape=[5])) # need 32 biases for 32 outputs
 
 #x_image is big 2
 convolve1= tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding='SAME') + b_conv1
@@ -37,7 +39,9 @@ print(conv1)
 
 #2nd layer
 #smaller data set now, so we can have more features (64)
-W_conv2 = tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=0.1))
+# W_conv2 = tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=0.1))
+W_conv2 = tf.Variable(tf.truncated_normal([5, 5, 5, 64], stddev=0.1))
+# b_conv2 = tf.Variable(tf.constant(0.1, shape=[64])) #need 64 biases for 64 outputs
 b_conv2 = tf.Variable(tf.constant(0.1, shape=[64])) #need 64 biases for 64 outputs
 
 convolve2= tf.nn.conv2d(conv1, W_conv2, strides=[1, 1, 1, 1], padding='SAME')+ b_conv2
@@ -48,7 +52,7 @@ print(conv2)
 layer2_matrix = tf.reshape(conv2, [-1, 7*7*64])
 W_fc1 = tf.Variable(tf.truncated_normal([7 * 7 * 64, 1024], stddev=0.1))
 b_fc1 = tf.Variable(tf.constant(0.1, shape=[1024])) # need 1024 biases for 1024 outputs
-fcl=tf.matmul(layer2_matrix, W_fc1) + b_fc1
+fcl=tf.matmul(layer2_matrix, W_fc1) + b_fc1 
 h_fc1 = tf.nn.relu(fcl)
 print(h_fc1)
 keep_prob = tf.placeholder(tf.float32)
@@ -72,9 +76,22 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 sess.run(tf.global_variables_initializer())
 
-for i in range(1100):
+# for i in range(1100):
+#     batch = mnist.train.next_batch(50)
+#     if i%100 == 0:
+#         train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
+#         print("step %d, training accuracy %g"%(i, float(train_accuracy)))
+#     train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+
+'''
+Homework 1
+'''
+for i in range(20000):
     batch = mnist.train.next_batch(50)
     if i%100 == 0:
-        train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
-        print("step %d, training accuracy %g"%(i, float(train_accuracy)))
+        train_accuracy = accuracy.eval(feed_dict={
+            x:batch[0], y_: batch[1], keep_prob: 1.0})
+        print("step %d, training accuracy %g"%(i, train_accuracy))
     train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+
+#Changed number of feature maps in the first layer to 5
