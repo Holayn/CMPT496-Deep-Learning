@@ -35,3 +35,8 @@ Major Arcitectures
 Homework: have to do convolutional neural network training on NIST data set.
 run 1st time as configured. write time, accuracy. how long it took, performance.
 mess with size of convolutional filters, did it take longer? better/accuracy?
+
+
+By pooling (downsizing), can put more features.
+If can represent with vector, can apply CNN to it.
+Using spectrogram for audio.

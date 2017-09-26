@@ -1,0 +1,38 @@
+Convolution -> Max Pooling -> Activation/Rectifying Linear Units = 1 convolutional neural network layer
+
+Convolutional changed how layers worked. Some are not connected now.
+Max pooling attempt at making convolution faster. Makes CNNs a lot faster.
+But problem was not only making faster, but better.
+
+Ways to make CNNs faster: dropout and dropconnect. Drop connections between neurons, or outputs from neurons.
+
+Tangent: Haar Wavelet AdaBoost. Apply filters via convolution. If wavelets respond to stimuli, we can say there's a face in the image.
+Google's Inception CNN does connections differently. Reduced typed of convolution. Joined different filters generated from different parts, didn't lose any info.
+Small filters (3x3), so small computations, can do a lot of them.
+Stride >1 also helps with problem, cuts in half.
+Hard to get features from a small object. So architecure of CNN is small.
+
+Tangent: top-5 error. If algorithm predicting object incorrectly, would incorrect solution be in top 5 probabilities? 
+If object was detected, and was in top 5 probabilities. 
+Prediction wrong, but was in top 5 probabilities.
+top-1 error: perfect. highest probability was that object and nothing else.
+https://arxiv.org/pdf/1602.07261v1.pdf
+
+Region Proposal Network (RPN) - has convolutions involved in it, but it involves specific regions in decision process. 
+RoI (region of interest)
+https://arxiv.org/pdf/1605.06409.pdf
+
+Convolution looks like correlation (association but not causation)
+If have image (and want to see if correlated to another image), use convolution to do this. Multiply this image with other image, and slide over it. 
+Where two objects match, will see high point there marking a high correlation point.
+http://bit.ly/2wSm5ox
+
+We flip in convolution, because of reasons behind mathematical analysis.
+
+
+==========lab time============
+tensorflow is a pain with your own data.
+today, we load own data into tensorflow.
+so we can start modifying CNN with our own data.
+
+We put images in test and train folders.
