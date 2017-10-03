@@ -1,0 +1,119 @@
+(In convolution, 3 units in each layer)
+
+Neural network doesn't take into consideration sequences of time
+
+Figure 10.1
+s^(...) --f-> s^(t-1) --f-> s^(t) --f-> s^(t+1) --f-> s^(...)
+Dynamic systems (systems that operate over time)
+States (s) and points of time (t)
+f assumes laws of world always the same (physics, nature, etc)
+
+Figure 10.2
+Unfolding Computation Graphs
+Uses info from previous state in world and uses input from current state in world.
+Neural network currently doesn't have model where output of network is used for input.
+
+Figure 10.3
+y is result, L is loss, o is output
+Because of dependencies, hard to calculate backwards propagation
+
+Figure 10.4
+Depends on previous output, but W always going to be same, but loses a bit of previous information
+
+Figure 10.5
+Good in text/speech processing, grammar, etc.
+Model tries to understand what s(t+1) is
+s(t-1)   s(t)    s(t+1)
+Tien      is     ______
+        smart       .38
+        sleeping    .60
+        stale       .01
+        loud        .99
+
+Output - probabilities
+Video sequences - objects likely to appear in next frame
+
+Figure 10.6
+Teacher forcing - desired output (y) is used in next step. not even using output.
+h is training based on state of world
+In training, always fed desired output.
+Will learn from perfect source without learning from its own mistakes.
+In testing, use output
+If input always clean/network has seen before, this is ok (i.e. words in English dictionary are always valid)
+If sees pattern/word never seen before, will make sense, and it will grow exponentially as it continues to make predictions.
+
+Figure 10.7 - Fully Connected Graphical Model
+i.e.:
+Trying to make network learn that 'This' is always followed by 'is'
+But grows exponentially because all the words in English dictionary
+
+Figure 10.8 - RNN Graphical Model
+Based on state of world, determine relationship based on associations
+y is passed as input
+h does something with y
+propagates to next h, and uses the output as new input
+Needs to learn in training
+
+Figure 10.9 - Vector to sequence (Model)
+i.e. x is word, split into some kind of sequence to determine what will come next.
+good with things vector in nature, i.e. stock prices, video.
+feed in sequence and see how develops over time.
+Still using teacher forcing, but now consiering previous prediction/state of world (hidden units..what's inside? will learn later)
+W is the model (the model which is learned by which previous state of world will be looked at. W is lenses to look through world at)
+L is loss (y is target output). Compare loss with next word (y^t). Ideally output (o^t-1) and next word should be same
+All these are parameters network has to learn
+
+Figure 10.10 - Hidden and Output Recurrence (Model)
+Pass along previous target output, previous information captured in sequence and what the previous word was
+Teacher model does not use previous information captured in sequence
+In testing, goes from o to h, not y to h
+
+Figure 10.11 Bidirectional RNN (Model)
+Information fed to multiple layers of hidden units but they're opposite directions
+Understand sequences both way
+Adding another layer of generaltization into model
+
+Figure 10.12 - Sequence to Sequence Architecture
+Encoder/Decoder - teach network to compress data and still be able to reproduce data from compressed data.
+Want lossless.
+Teach network to learn how to summarize information.
+from 262144 vector size to size 100.
+100 neurons (encoder) (connected to vector)
+262144 neurons to match original vector (decoder)
+The neurons above are conneted.
+100 neurons receiving 262,144.
+Unsupervised model: if not original picture, fix weights and repeat (reduce error)
+Will learn to zip using only 100 elements.
+Sentence put in encoder -> abstract representation of sentence (temporary, meaningful and compact sequence) -> decoder can take representation and decode in any language want.
+Training model to learn a language and translate to any.
+Image processing....take sequence of images, make abstract, compact sequence from it, and do stuff with it.
+Images of pablo -> see what look like when older.
+Ideas: cryptography (but have to make sure it's g) (can't guarantee 1-1 mapping)
+(Java sentence - find abstract meaning and translate to other lang)
+Filling in gaps in images
+Provide tweet, see what Trump would respond
+
+Figure 10.13 - Deep RNNs
+Multiple layers where do RNN
+
+Figure 10.14 - Recursive Network
+Recursive network will cut by log(2) number of operations to be done
+One node at top that makes decision
+Recursive makes way back up graph (repeated pieces, reduces as goes up)
+Recurrent are just sequences being connected
+
+Figure 10.15 - LSTM (long short-term memory) (model)
+Gradients might be different each time in RNN.
+RNN suffer from two major problems: explosive gradients (if taking step in gradient process, finding minimum error, and taking steps based on gradient. If gradient sees hole coming up, takes big step to get over it. Step will be very big. Cliff analogy. Gets very large i.e. large number raised to exponent) 
+and vanishing gradient (same thing but gets very small)
+In LSTM, we just add (instead of multiplying), fixes one of major problems in RNN. 
+Adding results of filter together.
+
+Gradient Clipping
+Take small steps in right direction (trust gradient direction, but not its length of step. Clips. Static clip (step size))
+
+###Lab stuff
+Write gate (input from current neural network) (previous h, x, o)...decides what info to keep, sends
+to information cell, which has keep gate, which updates and decides what to preserve based on what it had before and from write gate.
+Read gate feeds output coming from information cell.
+If small memory device, write and keep gates don't keep much.
