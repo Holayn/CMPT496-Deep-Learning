@@ -1,0 +1,49 @@
+Applying Recurrent Neural Networks/LSTMs for Language Modeling
+
+Word modeling (working with letters in word)
+
+Language modeling: task of assigning probabilities to sequences of words.
+RNN are really good are learning sequences.
+"This is an" <-------- context of prediction trying to make
+    Model will output a list of probabilities for the next word.
+Useful in tasks such as speech recognition, machine translation, image captioning (give it things in picture, it will caption photo), text correction
+
+Perplexity: measure of how NN reacts to info. avg logarithm of all predictions over stimuli in network.
+
+Treebank dataset: largest dataset about text organization / sequences
+
+Word embeddings: transformation of word into some vectorial representation that the network will use.
+    Words that belong together stay together.
+    T-SNE - taking vector and representing it in 2-D. Can see how words are grouped together.
+
+
+See lab
+Clarifications for LSTM architecture based on arguments:
+Recurrence step is 20 (we're assuming a sentence is about 20 words in length) (with 20 elements of context/in a sequence, we can predict next) (giving enough context)
+Every unit connected to 200 units. Word mapped to vector with size 200. (Why 200? Cuz can..? We'll vary it to see effect in model by increasing/reducing neurons)
+30 words, each word is vector of 20. 
+Word is input (20), but need 30 because that's our batch, which is mapped to 200.
+30 sequences (sentences) of 20 words
+1st batch size is 30 sequences of 20 words.
+
+Word embedding most important in network.
+
+_initial_state - the info stored in the info cell, seen by the next layer 
+
+Embedding: based on dictionary of 10,000 words, take every sentence and put it in vectorial representation
+
+tf.nn.dynamicrnn() puts together the two layers
+gives output and new state (state is information that is context. used to pass information to other parts)
+
+out of 10,000 words, which one is most likely to be next (only can predict word in 10,000 words)
+
+Look at MNIST LSTM at home
+
+-----
+
+Taking a lograithm of a function smooths it out
+Perplexity magnifies the errors
+Bad to have high degree of perplexity
+
+HW:
+Increase number of neurons, learning rate, etc for MNIST one
