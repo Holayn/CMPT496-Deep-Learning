@@ -1,0 +1,47 @@
+can ref other ppl
+show thinking as to why something is happening
+midterm due thurs midnight
+
+//
+If RNN/LSTM can do word prediction, how about character prediction?
+Our "dictionary" is the alphabet.
+
+class TextLoader (from blog). takes path of dataset and batch size (how much data to process every time) (filenameinput.txt)
+
+Parameters: batch size, length of the sequence
+From this, derive other parameters.
+
+Look at sequence of 50 characters. Essence of English sentence, average sentence length.
+Batch size is arbitrary (60 sentences per batch) (can increase size, but increases computation time. find balance of batch size. not too small/big so trains smoothly)
+Epochs are 125 (do 5 epochs at first, to make sure it works. each epoch takes 1 minute)
+Learning rate: based on optimizer and how fast derivative adjusts itself (fixing exploding gradient) (start small)
+Decay rate: how fast to adjust learning rate (.97 is 3%)
+Rnn size - number of hidden neurons in every recurrent neural network.
+num_layers = 2 LSTM layers. each layer has 128 units/neurons.  input ---> [128] ---> [128] ---> regular layer of neurons ---> output  (recurring part with output of LSTM) (recurrent is regulated by memory, feeding back own output and state) (whole thing with LSTM and reccurring is RNN) (Fact: LSTM is something that goes with RNN) (Neurons in LSTM)
+In order to go into 128 neurons, has to be embedded. Size of 50 characters need to be transformed/embedded.
+Every character converted into vector of size 65 (size of dictionary, we have 65 characters), then converted into vector of size 128. From first vector, captures info about it into vector of size 128 (like what usually follows it with punctuation, etc)
+65x50x128.
+Each batch has 60 things of size 128*50. 128 for each character. 60*128*50.
+
+Each LSTM has 5 parts: previous state, previous output, new state, and new output (2 and 3 are tuple, 4 and 5 are not)
+
+BasicRNNCell is most basic RNN cell.
+(size of RNN is 128) (so need cell of size 128)
+
+Why is it a deep network if not that many layers?
+Because in each layer, many neurons, recurring. 50 layers of neurons.
+shape=(60,50) 60 is batch size, 50 for# of chars per sentence
+
+[17] creates w and b variables.
+[21] ch1 put into both layers. parallelism
+[25] calculating output with Wx+b. softmax is activation function, output probabilities for every class. 
+
+Perplexity best way to calculate quality of recurrent neural network.
+[29] is the converting to 65 and 128, into every layer.
+
+Train with Bible...will predict what comes after "Jesus said" (stimulate network to start producing outputs)
+epochs: number of times network will see all the data (when doing character modeling, only cares about producting correct context. in language modeling, care about meaning (words should be in correct placed in sentence). here, characters should be in right place in word)
+train_loss is perplexity.
+
+---------------LAB TIME----------------
+RNNS - if have error early on, the errors in sequence keep on increasing with time
