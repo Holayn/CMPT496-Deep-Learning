@@ -1,0 +1,64 @@
+Extracting .\train-images-idx3-ubyte.gz
+Extracting .\train-labels-idx1-ubyte.gz
+Extracting .\t10k-images-idx3-ubyte.gz
+Extracting .\t10k-labels-idx1-ubyte.gz
+Train Images:  (55000, 784)
+Train Labels   (55000, 10)
+
+Test Images:   (10000, 784)
+Test Labels:   (10000, 10)
+Sample: 10 - Class: [0] - Label Vector: [ 1.  0.  0.  0.  0.  0.  0.  0.  0.  0.] 
+Sample: 11 - Class: [6] - Label Vector: [ 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.] 
+Sample: 12 - Class: [9] - Label Vector: [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  1.] 
+Tensor("add:0", shape=(?, 10), dtype=float32)
+Iter 1000, Minibatch Loss= 2.945516, Training Accuracy= 0.07000
+Iter 2000, Minibatch Loss= 2.960444, Training Accuracy= 0.11000
+Iter 3000, Minibatch Loss= 2.806776, Training Accuracy= 0.07000
+Iter 4000, Minibatch Loss= 3.019090, Training Accuracy= 0.07000
+Iter 5000, Minibatch Loss= 2.849877, Training Accuracy= 0.08000
+Iter 6000, Minibatch Loss= 2.756474, Training Accuracy= 0.10000
+Iter 7000, Minibatch Loss= 2.809949, Training Accuracy= 0.12000
+Iter 8000, Minibatch Loss= 2.809549, Training Accuracy= 0.12000
+Iter 9000, Minibatch Loss= 2.822766, Training Accuracy= 0.09000
+Iter 10000, Minibatch Loss= 2.825283, Training Accuracy= 0.08000
+Iter 11000, Minibatch Loss= 2.615720, Training Accuracy= 0.14000
+Iter 12000, Minibatch Loss= 2.700449, Training Accuracy= 0.11000
+Iter 13000, Minibatch Loss= 2.581473, Training Accuracy= 0.13000
+Iter 14000, Minibatch Loss= 2.673307, Training Accuracy= 0.12000
+Iter 15000, Minibatch Loss= 2.643126, Training Accuracy= 0.10000
+Iter 16000, Minibatch Loss= 2.525035, Training Accuracy= 0.12000
+Iter 17000, Minibatch Loss= 2.640337, Training Accuracy= 0.07000
+Iter 18000, Minibatch Loss= 2.512132, Training Accuracy= 0.11000
+Iter 19000, Minibatch Loss= 2.577316, Training Accuracy= 0.10000
+Iter 20000, Minibatch Loss= 2.571213, Training Accuracy= 0.07000
+Iter 21000, Minibatch Loss= 2.494609, Training Accuracy= 0.11000
+Iter 22000, Minibatch Loss= 2.477910, Training Accuracy= 0.12000
+Iter 23000, Minibatch Loss= 2.419844, Training Accuracy= 0.13000
+Iter 24000, Minibatch Loss= 2.456394, Training Accuracy= 0.08000
+Iter 25000, Minibatch Loss= 2.306250, Training Accuracy= 0.13000
+Iter 26000, Minibatch Loss= 2.395398, Training Accuracy= 0.13000
+Iter 27000, Minibatch Loss= 2.398063, Training Accuracy= 0.10000
+Iter 28000, Minibatch Loss= 2.408779, Training Accuracy= 0.12000
+Iter 29000, Minibatch Loss= 2.363778, Training Accuracy= 0.11000
+Iter 30000, Minibatch Loss= 2.371696, Training Accuracy= 0.15000
+Iter 31000, Minibatch Loss= 2.384902, Training Accuracy= 0.14000
+Iter 32000, Minibatch Loss= 2.233790, Training Accuracy= 0.21000
+Iter 33000, Minibatch Loss= 2.373299, Training Accuracy= 0.14000
+Iter 34000, Minibatch Loss= 2.435694, Training Accuracy= 0.13000
+Iter 35000, Minibatch Loss= 2.387019, Training Accuracy= 0.12000
+Iter 36000, Minibatch Loss= 2.406814, Training Accuracy= 0.10000
+Iter 37000, Minibatch Loss= 2.328570, Training Accuracy= 0.19000
+Iter 38000, Minibatch Loss= 2.448003, Training Accuracy= 0.12000
+Iter 39000, Minibatch Loss= 2.252150, Training Accuracy= 0.19000
+Iter 40000, Minibatch Loss= 2.337655, Training Accuracy= 0.18000
+Iter 41000, Minibatch Loss= 2.401994, Training Accuracy= 0.20000
+Iter 42000, Minibatch Loss= 2.397824, Training Accuracy= 0.12000
+Iter 43000, Minibatch Loss= 2.208783, Training Accuracy= 0.18000
+Iter 44000, Minibatch Loss= 2.245858, Training Accuracy= 0.21000
+Iter 45000, Minibatch Loss= 2.294421, Training Accuracy= 0.20000
+Iter 46000, Minibatch Loss= 2.356793, Training Accuracy= 0.17000
+Iter 47000, Minibatch Loss= 2.261968, Training Accuracy= 0.22000
+Iter 48000, Minibatch Loss= 2.286730, Training Accuracy= 0.23000
+Iter 49000, Minibatch Loss= 2.411503, Training Accuracy= 0.14000
+Optimization Finished!
+Testing Accuracy: 0.2042

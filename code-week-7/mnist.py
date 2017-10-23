@@ -63,7 +63,7 @@ for i in samplesIdx:
 # One output layer which converts a 128-dimensional output of the LSTM to a 10-dimensional output indicating a class label.
 n_input = 28 # MNIST data input (img shape: 28*28)
 n_steps = 28 # timesteps
-n_hidden = 128 # hidden layer num of features
+n_hidden = 4096 # hidden layer num of features
 n_classes = 10 # MNIST total classes (0-9 digits)
 
 
@@ -91,7 +91,7 @@ outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
 
 # Need to split tensors and reshape them so can have output to use in next layer
 # The output of the RNN would be a [100x28x128] matrix; we use the linear activation to map it to a [?x10 matrix]
-output = tf.reshape(tf.split(outputs, 28, axis=1, num=None, name='split')[-1],[-1,128])
+output = tf.reshape(tf.split(outputs, 28, axis=1, num=None, name='split')[-1],[-1,4096])
 pred = tf.matmul(output, weights['out']) + biases['out']
 
 # labels and logits should be tensors of shape [100x10], lets check it out:

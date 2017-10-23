@@ -389,7 +389,6 @@ def run_epoch(session, m, data, eval_op, verbose=False):
 raw_data = reader.ptb_raw_data(data_dir)
 train_data, valid_data, test_data, _ = raw_data
 
-#Initializes the Execution Graph and the Session
 with tf.Graph().as_default(), tf.Session() as session:
     initializer = tf.random_uniform_initializer(-init_scale,init_scale)
     

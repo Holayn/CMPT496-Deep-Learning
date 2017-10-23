@@ -1,0 +1,68 @@
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting .\train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting .\train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting .\t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting .\t10k-labels-idx1-ubyte.gz
+Train Images:  (55000, 784)
+Train Labels   (55000, 10)
+
+Test Images:   (10000, 784)
+Test Labels:   (10000, 10)
+Sample: 10 - Class: [0] - Label Vector: [ 1.  0.  0.  0.  0.  0.  0.  0.  0.  0.] 
+Sample: 11 - Class: [6] - Label Vector: [ 0.  0.  0.  0.  0.  0.  1.  0.  0.  0.] 
+Sample: 12 - Class: [9] - Label Vector: [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  1.] 
+Tensor("add:0", shape=(?, 10), dtype=float32)
+Iter 1000, Minibatch Loss= 1.806239, Training Accuracy= 0.38000
+Iter 2000, Minibatch Loss= 1.512375, Training Accuracy= 0.51000
+Iter 3000, Minibatch Loss= 1.395967, Training Accuracy= 0.60000
+Iter 4000, Minibatch Loss= 1.486727, Training Accuracy= 0.50000
+Iter 5000, Minibatch Loss= 1.223811, Training Accuracy= 0.61000
+Iter 6000, Minibatch Loss= 1.329716, Training Accuracy= 0.54000
+Iter 7000, Minibatch Loss= 1.088760, Training Accuracy= 0.58000
+Iter 8000, Minibatch Loss= 1.163829, Training Accuracy= 0.61000
+Iter 9000, Minibatch Loss= 1.065605, Training Accuracy= 0.69000
+Iter 10000, Minibatch Loss= 0.847937, Training Accuracy= 0.77000
+Iter 11000, Minibatch Loss= 0.867861, Training Accuracy= 0.72000
+Iter 12000, Minibatch Loss= 0.906956, Training Accuracy= 0.68000
+Iter 13000, Minibatch Loss= 0.900191, Training Accuracy= 0.71000
+Iter 14000, Minibatch Loss= 0.830491, Training Accuracy= 0.79000
+Iter 15000, Minibatch Loss= 0.840794, Training Accuracy= 0.73000
+Iter 16000, Minibatch Loss= 0.792829, Training Accuracy= 0.75000
+Iter 17000, Minibatch Loss= 0.743317, Training Accuracy= 0.70000
+Iter 18000, Minibatch Loss= 0.807885, Training Accuracy= 0.73000
+Iter 19000, Minibatch Loss= 0.822090, Training Accuracy= 0.74000
+Iter 20000, Minibatch Loss= 0.875371, Training Accuracy= 0.78000
+Iter 21000, Minibatch Loss= 0.817866, Training Accuracy= 0.76000
+Iter 22000, Minibatch Loss= 0.718447, Training Accuracy= 0.80000
+Iter 23000, Minibatch Loss= 0.782906, Training Accuracy= 0.73000
+Iter 24000, Minibatch Loss= 0.697666, Training Accuracy= 0.74000
+Iter 25000, Minibatch Loss= 0.788241, Training Accuracy= 0.75000
+Iter 26000, Minibatch Loss= 0.670891, Training Accuracy= 0.78000
+Iter 27000, Minibatch Loss= 0.659692, Training Accuracy= 0.76000
+Iter 28000, Minibatch Loss= 0.511528, Training Accuracy= 0.85000
+Iter 29000, Minibatch Loss= 0.531853, Training Accuracy= 0.80000
+Iter 30000, Minibatch Loss= 0.570910, Training Accuracy= 0.80000
+Iter 31000, Minibatch Loss= 0.844143, Training Accuracy= 0.78000
+Iter 32000, Minibatch Loss= 0.482737, Training Accuracy= 0.84000
+Iter 33000, Minibatch Loss= 0.546326, Training Accuracy= 0.86000
+Iter 34000, Minibatch Loss= 0.590927, Training Accuracy= 0.81000
+Iter 35000, Minibatch Loss= 0.561924, Training Accuracy= 0.79000
+Iter 36000, Minibatch Loss= 0.564297, Training Accuracy= 0.80000
+Iter 37000, Minibatch Loss= 0.462260, Training Accuracy= 0.87000
+Iter 38000, Minibatch Loss= 0.608002, Training Accuracy= 0.85000
+Iter 39000, Minibatch Loss= 0.549816, Training Accuracy= 0.80000
+Iter 40000, Minibatch Loss= 0.735532, Training Accuracy= 0.77000
+Iter 41000, Minibatch Loss= 0.459364, Training Accuracy= 0.87000
+Iter 42000, Minibatch Loss= 0.764309, Training Accuracy= 0.73000
+Iter 43000, Minibatch Loss= 0.616234, Training Accuracy= 0.81000
+Iter 44000, Minibatch Loss= 0.636588, Training Accuracy= 0.82000
+Iter 45000, Minibatch Loss= 0.633966, Training Accuracy= 0.80000
+Iter 46000, Minibatch Loss= 0.549575, Training Accuracy= 0.87000
+Iter 47000, Minibatch Loss= 0.518084, Training Accuracy= 0.85000
+Iter 48000, Minibatch Loss= 0.465270, Training Accuracy= 0.88000
+Iter 49000, Minibatch Loss= 0.428671, Training Accuracy= 0.89000
+Optimization Finished!
+Testing Accuracy: 0.8228

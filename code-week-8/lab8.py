@@ -78,7 +78,7 @@ batch_size = 60  # minibatch size, i.e. size of data in each epoch
 num_epochs = 125 # you should increase it if you want to see relatively good results
 learning_rate = 0.002
 decay_rate = 0.97
-rnn_size = 128 # size of RNN hidden state (output dimension)
+rnn_size = 512 # size of RNN hidden state (output dimension)
 num_layers = 2 #number of layers in the RNN
 
 data_loader = TextLoader('', batch_size, seq_length)
@@ -163,7 +163,7 @@ print(tvars)
 # [30]
 class LSTMModel():
     def __init__(self,sample=False):
-        rnn_size = 128 # size of RNN hidden state vector
+        rnn_size = 512 # size of RNN hidden state vector
         batch_size = 60 # minibatch size, i.e. size of dataset in each epoch
         seq_length = 50 # RNN sequence length
         num_layers = 2 # number of layers in the RNN

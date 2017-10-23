@@ -1,0 +1,9 @@
+py mnist_automated.py 2048 0.001 >mnist_2048_001
+py mnist_automated.py 1024 0.001 >mnist_1024_001
+py mnist_automated.py 512 0.001 >mnist_512_001
+py mnist_automated.py 256 0.001 >mnist_256_001
+py mnist_automated.py 128 0.001 >mnist_128_001
+py mnist_automated.py 64 0.001 >mnist_64_001
+py mnist_automated.py 32 0.001 >mnist_32_001
+py mnist_automated.py 16 0.001 >mnist_16_001
+py mnist_automated.py 4096 0.001 >mnist_4096_001
