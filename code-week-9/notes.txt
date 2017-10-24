@@ -1,0 +1,63 @@
+If perplexity does not improve for many epochs, probably overfit
+Sequence length - how much information you think network needs
+Context = sequence length
+Increasing context doesn't help with predicting next character. "I was brought to America" - Don't need to know stuff in beginning to predict next really
+Words need more context.
+Character prediction doesn't need that much context.
+------------------------------------------------------------------
+Unsupervised Learning (computers learinng by themselves aieee) (but we still control them somehow)
+
+Collaborative filtering
+
+Restricted Boltzman Machines (RBMs)
+- group of neurons that receive some type of input (image, text from sentence, code)
+- another group/layer of neurons that are connected to first layer receive something, pass thru activation function, and stimulate neurons from previous layer (see diagram)
+- Minimize output in 2nd layer and what's coming into first layer.
+    - Goes on forever and ever until is told to stop
+    - Forward and backward adjustments (function to do this)
+- Can also selectively choose neurons to use as output
+- Forward/backward type of learning
+- RBMs aren't useful unless modified in specific ways
+    - Replicate input in the output (Autoencoders) (see diagrams)
+    - Multi layers for more detail
+
+Collaborative filtering
+- using knowledge from other systems to recommend something new
+- Netflix:
+    - creating a profile, compares with other profiles who have liked the same thing
+    - recommends if other people liked other things
+
+Autoencoders basis for deep belief networks
+
+Input to smaller layer, then have output layer with same size/info as input
+Need to reduce dimensionality of problem
+m^-p/(2p+d)
+100 data points
+Dimensionality 65k (or 1.2 million)
+(Parameters are weights) 1000 parameters
+Time it takes to find good model increases as dimensionality increase. The curse of dimensionality.
+
+What to minimize? How to quantify between input image and reconstruction of the output? Loss function
+More data points = more error.
+Big differences are exponentially big.
+Neural network sensitive to sign.
+
+Every layer needs to have neurons with activation functions that have nice derivatives. Want good training speed.
+For every neuron, will have sum of Bernoulli's cross-entropy.
+Entropy: number that tells you how much info you have in something. Measure of how much info, or how much surprise you will have with data. Like have 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001 <- woah
+
+RMSPROP
+root mean squared error back propagation
+Want to go in direction of minimum (take steps) (magnitude is size of step)
+if take gradient sign, this method is known as rmprop. Takes only sign/direction of gradient.
+This is considering the previous gradient. RMSPROP considers average of all previous gradient, new gradient direction weighted against the path.
+Game changing method. Good against explosive gradients. Not an RNN, but always good idea to not take crazy steps.
+
+In autoencoder, is overfit good or bad?
+We're trying to exactly replicate input pattern
+If it's overfit, will only work for images you trained on
+Bad if only have one layer
+If have multiple layers, then the problem of overfit is no longer a problem
+We don't understand why. How is overfit a great thing for deep autoencoders
+
+Determine best number of layer that can give best reconstruction under half the size of the input
