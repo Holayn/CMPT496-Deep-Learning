@@ -1,0 +1,5 @@
+Milestone:
+Base for paper (problem, research, algorithm)
+~6 references
+
+Cryptography / Secure communications & Deep learning

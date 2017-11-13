@@ -1,0 +1,22 @@
+Deep Belief Networks/Models
+- network has its own previous knowledge (some belief) prior to training / backpropagation done
+- no pretrained leads to no convergence
+
+Difference between RBM and autoencoder:
+- layers can connect back and forth
+- connections both ways
+- autoencoders just one direction
+
+x e R (100x100)
+
+*not needed for autoencoder pretrained
+*y e R
+
+Dataset D = {xi, yi} i = 1, 2, ..., N
+
+Use one to two layers for pretraining in autoencoder.
+
+Sigmoid/softmax - takes maximum to see what is output
+
+Tensorboard allows to visualize model as it trains.
+Shows a lot of good info about training

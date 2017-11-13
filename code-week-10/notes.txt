@@ -1,0 +1,36 @@
+Generative models
+
+Autoencoder = series of encoding layers and decoding layers
+Reconstruct original to perfection
+Every layer dependent on previous one
+
+Generative models - neural models to generate knowledge, and then fine-tune it
+Generative part is completely unsupervised (we're just trying to make it learn, not predicting anything)
+    - Great aspect: generative adversarial networks
+    - If image is pixelated, will learn to pixelate things
+
+Relies a lot on the generator
+what is real/not real?
+
+Generative knowledge
+
+Fine-tuning on model already trained
+Putting neural network at end (after training each part individually)
+Fine-tuning the output
+
+Before/after fine-tuning:
+Weights won't change too much
+
+Pretrained vs without pretrained: pretrained less test error
+
+Starting with small network, then make it deeper. Better than just starting out with deep network
+Use generative model (RBMs, autoencoders) before fine tuning
+
+Using unsupervised learning: not telling model anything about label. Telling model to learn what the image means. 
+Why pre-training makes sense. 
+Cow: don't know if upside down, color, direction facing. Label doesn't convey this. 
+
+Doing pretraining keeps weights following same path, keeps convergence.
+Not training from scratch.
+If no pretraining, weights go all over the place.
+Pretraining can be done with RBMs.
