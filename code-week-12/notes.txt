@@ -1,0 +1,49 @@
+Deep belief networks help with training process by 
+pretraining networks that capture info that's not obvious 
+to network whose only purpose is to detect mistake in labels.
+
+Have autoencoders/RBMs in layers, at the end connect a set of neurons and train with backprop.
+
+In RBM, shares information between layers.
+Replicate original input. Same as autoencoder except autoencoder doesn't share parameters between layers.
+
+Some optimizers auto adjust learning rate.
+In RBM, learning rate can be high.
+
+Learning rate is updates on weights themselves
+RMSE is best way to measure error. Small differences not penalized as much, big differences are.
+Very nice derivative.
+
+Overfit = very low error, then suddenly validation goes other way.
+
+Train autoencoders/RBMs independently.
+Use output of one as input for other.
+
+After training of RBMs, attach neural network to perform final training.
+
+At this point, we have a deep belief model/network.
+
+[6] combines layers
+
+Training method uses traditional W's and B's, and sigmoid
+along with cost function (mean squared error) and using momentum optimizer
+Meansquarederror reported in each layer.
+
+Training accuracy/error. 
+Also provide validation X and Y.
+
+Train autoencoders with at least 100 epochs.
+Train RBMs with at least 50 epochs.
+
+[7] is with pretrained. this is just finetuning. Finetuning use fewer epochs.
+
+If we put in the optimization problem / loss function somehow that the average 
+output of each neuron has to be minimized (neurons fire only when really sure, doesn't fire otherwise).
+The k-o divergence.
+Minimize output of neurons, they act as their own dropout function.
+Some neurons may never fire.
+
+hw3: find way to get good
+play around with layers
+play with number of neurons
+play with number of epochs

@@ -1,0 +1,49 @@
+Generative Adversarial Network and its Variations
+---------------------------------------------------
+(DCGAN: replace GAN's MLP with convnet)
+
+Generative model: have training set and learn a model over that training set.
+- samples drawn from model reflect structure of data
+- samples from data distribution have high likelihood under model
+- given enough data, can approximate given the distribution
+- modelling distribution
+
+Pushing network to learn distribution rather than making it learn a face associated to a label.
+- Discriminative model 
+    - trained to estimate probablility that sample came from data distribution rather than generative model
+- Generative model 
+    - trained to maximize probability of D making mistake
+Generative face based on noisy input
+
+Minimizing error: instead of mean squared error, we do a minimax value function
+- Maximize discriminator, minimize generator's ability to trick D to not knowing if it's fake/real. Minimize chance of D being fooled by D.
+
+Two batches to train: one with noisy data, one with true data.
+Calculate gradient.
+Discriminator gradient based both on discriminator and generator.
+
+Great experimental results!
+
+DCGAN: Deep Convolutional Generative Adversarial Network (DCGAN)
+- Use deep CNN for generator and discriminator instead of MLP.
+
+Conditional Generative Adversarial Nets
+- Creating disitrbution that is conditional
+- Can have a distribution for different objects
+- Works really good for multi-object recognition
+Can ask for specific objects
+
+Generative Adversarial Text to Image Synthesis
+
+Caption = vector of values
+Can we replace with an image for that caption?
+
+InfoGAN: Interpretable Representation Learning by Information Maximizing Generative Adversarial Nets
+Latent code - put into model. Model will train based on it. How to produce good latent code? Use autoencoders.
+
+Discriminator does comparison between fake and true, try to maximize distance.
+
+Adversarial Autoencoder: encoding input. Pull apart (in variational autoencoder)
+
+
+Text to image: vs RNN: T2I will give pretty good results, even with typos

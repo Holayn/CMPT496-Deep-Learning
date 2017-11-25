@@ -1,0 +1,15 @@
+py autoencoder.py 1024 512 >D:\ae_1024_512
+py autoencoder.py 1024 256 >D:\ae_1024_256
+py autoencoder.py 1024 128 >D:\ae_1024_128
+py autoencoder.py 1024 64 >D:\ae_1024_64
+py autoencoder.py 1024 32 >D:\ae_1024_32
+py autoencoder.py 512 256 >D:\ae_512_256
+py autoencoder.py 512 128 >D:\ae_512_128
+py autoencoder.py 512 64 >D:\ae_512_64
+py autoencoder.py 512 32 >D:\ae_512_32
+py autoencoder.py 256 128 >D:\ae_256_128
+py autoencoder.py 256 64 >D:\ae_256_64
+py autoencoder.py 256 32 >D:\ae_256_32
+py autoencoder.py 128 64 >D:\ae_128_64
+py autoencoder.py 128 32 >D:\ae_128_32
+py autoencoder.py 64 32 >D:\ae_64_32
