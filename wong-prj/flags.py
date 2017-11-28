@@ -30,7 +30,7 @@ flags.DEFINE_integer('hidden3_units', 25,
                      'Number of units in hidden layer 3.')
 
 flags.DEFINE_integer('image_pixels', IMAGE_PIXELS, 'Total number of pixels')
-flags.DEFINE_integer('num_classes', 6, 'Number of classes')
+flags.DEFINE_integer('num_classes', NUM_CLASSES, 'Number of classes')
 
 # flags.DEFINE_float('pre_layer1_learning_rate', 0.0001,
 #                    'Initial learning rate.')
