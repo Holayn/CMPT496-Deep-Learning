@@ -324,7 +324,7 @@ class NN(object):
         # y = tf.placeholder("float", [None, self._Y.shape[1]])
         y = tf.placeholder(dtype="float", shape=[None, self._Y.shape[1]], name="y")
 
-        lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
+        lstm_cell = tf.contrib.rnn.BasicLSTMCell(len(self._sizes) + 1, forget_bias=1.0)
 
         outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
 
