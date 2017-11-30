@@ -120,7 +120,7 @@ class RBM(object):
         #Defining the hyperparameters
         self._input_size = input_size #Size of input
         self._output_size = output_size #Size of output
-        self.epochs = 50 #Amount of training iterations
+        self.epochs = 5 #Amount of training iterations
         self.learning_rate = 1.0 #The step used in gradient descent
         self.batchsize = 100 #The size of how much data will be used for training per sub iteration
 
@@ -239,7 +239,8 @@ class RBM(object):
 # 50 epochs for each rbm
 # 25 epochs for fine tuning
 # RBM_hidden_sizes = [500, 200 , 50 ] #create 3 layers of RBM with size 500, 200, and 50
-RBM_hidden_sizes = [40,20,10]
+# RBM_hidden_sizes = [40,20,10]
+RBM_hidden_sizes = [10,5]
 
 #Since we are training, set input as training data
 inpX = trX
@@ -293,7 +294,7 @@ class NN(object):
 
             #Initialize weights through a random uniform distribution
             self.w_list.append(
-                np.random.uniform( -max_range, max_range, [input_size, size]).astype(np.float32))
+                np.random.uniform( -max_range, max_range, [input_size, size]).astype(np.float32))  # size = number of classes
 
             #Initialize bias as zeroes
             self.b_list.append(np.zeros([size], np.float32))
@@ -320,22 +321,34 @@ class NN(object):
         _w = [None] * (len(self._sizes) + 1)
         _b = [None] * (len(self._sizes) + 1)
         # _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
-        _a[0] = tf.placeholder(dtype="float", shape=[None, 1, self._X.shape[1]], name="x")
+        # _a[0] = tf.placeholder(dtype="float", shape=[None, 1, self._X.shape[1]], name="x")
+        x = tf.placeholder(dtype="float", shape=[None, self._X.shape[1], self._X.shape[1]], name="x")
         # y = tf.placeholder("float", [None, self._Y.shape[1]])
         y = tf.placeholder(dtype="float", shape=[None, self._Y.shape[1]], name="y")
+
+        weights = {
+            'out': tf.Variable(tf.random_normal([self._sizes[1], self._Y.shape[1]]))
+        }
+        biases = {
+            'out': tf.Variable(tf.random_normal([self._Y.shape[1]]))
+        }
 
         lstm_cell = tf.contrib.rnn.BasicLSTMCell(len(self._sizes) + 1, forget_bias=1.0)
 
         outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
 
-        #Define variables and activation function
-        for i in range(len(self._sizes) + 1):
-            _w[i] = tf.Variable(self.w_list[i])
-            _b[i] = tf.Variable(self.b_list[i])
-        for i in range(1, len(self._sizes) + 2):
-            _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
+        # output = tf.reshape(tf.split(outputs, 28, axis=1, num=None, name='split')[-1],[-1,128])
+        output = tf.reshape(tf.split(outputs, self._X.shape[1], axis=1, num=None, name='split')[-1],[-1,128])
+        pred = tf.matmul(output, weights['out']) + biases['out']
 
         print(pred)
+
+        #Define variables and activation function
+        # for i in range(len(self._sizes) + 1):
+        #     _w[i] = tf.Variable(self.w_list[i])
+        #     _b[i] = tf.Variable(self.b_list[i])
+        # for i in range(1, len(self._sizes) + 2):
+        #     _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
 
         #Define the cost function
         # cost = tf.reduce_mean(tf.square(_a[-1] - y))
