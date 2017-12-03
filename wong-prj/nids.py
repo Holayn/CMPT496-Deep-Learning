@@ -120,7 +120,7 @@ class RBM(object):
         #Defining the hyperparameters
         self._input_size = input_size #Size of input
         self._output_size = output_size #Size of output
-        self.epochs = 5 #Amount of training iterations
+        self.epochs = 25 #Amount of training iterations
         self.learning_rate = 1.0 #The step used in gradient descent
         self.batchsize = 100 #The size of how much data will be used for training per sub iteration
 
@@ -240,7 +240,12 @@ class RBM(object):
 # 25 epochs for fine tuning
 # RBM_hidden_sizes = [500, 200 , 50 ] #create 3 layers of RBM with size 500, 200, and 50
 # RBM_hidden_sizes = [40,20,10]
-RBM_hidden_sizes = [10,5]
+# RBM_hidden_sizes = [10,5]
+# RBM_hidden_sizes = [40,25]
+# RBM_hidden_sizes = [100,50,25]
+RBM_hidden_sizes = [100,25]
+
+# of last layer of RBM should be same as number of classes or greater
 
 #Since we are training, set input as training data
 inpX = trX
@@ -266,6 +271,10 @@ for rbm in rbm_list:
     rbm.train(inpX) 
     #Return the output layer
     inpX = rbm.rbm_outpt(inpX)
+    print(inpX.shape)
+
+print(inpX.shape)
+trX = inpX # ?
 
 import numpy as np
 import math
@@ -283,6 +292,8 @@ class NN(object):
         self.b_list = []
         self._learning_rate =  1.0
         self._momentum = 0.0
+        self._training_iters = 100000
+        self._display_step = 10
         self._epoches = 25
         self._batchsize = 100
         input_size = X.shape[1]
@@ -314,59 +325,153 @@ class NN(object):
             self.w_list[i] = rbm_list[i].w
             self.b_list[i] = rbm_list[i].hb
 
+    #Training method - Original shallow NN
+    # def train(self):
+    #     #Create placeholders for input, weights, biases, output
+    #     _a = [None] * (len(self._sizes) + 2)
+    #     _w = [None] * (len(self._sizes) + 1)
+    #     _b = [None] * (len(self._sizes) + 1)
+    #     _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
+    #     y = tf.placeholder("float", [None, self._Y.shape[1]])
+        
+    #     #Define variables and activation function
+    #     for i in range(len(self._sizes) + 1):
+    #         _w[i] = tf.Variable(self.w_list[i])
+    #         _b[i] = tf.Variable(self.b_list[i])
+    #     for i in range(1, len(self._sizes) + 2):
+    #         _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
+
+    #     print(_w)
+        
+    #     #Define the cost function
+    #     cost = tf.reduce_mean(tf.square(_a[-1] - y))
+        
+    #     #Define the training operation (Momentum Optimizer minimizing the Cost function)
+    #     train_op = tf.train.MomentumOptimizer(
+    #         self._learning_rate, self._momentum).minimize(cost)
+        
+    #     #Prediction operation
+    #     predict_op = tf.argmax(_a[-1], 1)
+        
+    #     #Training Loop
+    #     with tf.Session() as sess:
+    #         #Initialize Variables
+    #         sess.run(tf.global_variables_initializer())
+            
+    #         #For each epoch
+    #         for i in range(self._epoches):
+                
+    #             #For each step
+    #             for start, end in zip(
+    #                 range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+                    
+    #                 #Run the training operation on the input data
+    #                 sess.run(train_op, feed_dict={
+    #                     _a[0]: self._X[start:end], y: self._Y[start:end]})
+                
+    #             for j in range(len(self._sizes) + 1):
+    #                 #Retrieve weights and biases
+    #                 self.w_list[j] = sess.run(_w[j])
+    #                 self.b_list[j] = sess.run(_b[j])
+                
+    #             print("Accuracy rating for epoch " + str(i) + ": " + str(np.mean(np.argmax(self._Y, axis=1) ==
+    #                           sess.run(predict_op, feed_dict={_a[0]: self._X, y: self._Y}))))
+
+
     #Training method
     def train(self):
+        # n_steps = self._X.shape[1]
+        n_steps = 5
+        n_input = self._X.shape[1] # 122    no should be 25. last layer
+        n_classes = self._Y.shape[1] # 23   is number of classes
+        # n_hidden = 122
+        n_hidden = 25
+        print("Classes") # should be 23 classes
+        print(n_classes)
         #Create placeholders for input, weights, biases, output
         _a = [None] * (len(self._sizes) + 2)
         _w = [None] * (len(self._sizes) + 1)
         _b = [None] * (len(self._sizes) + 1)
         # _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
-        # _a[0] = tf.placeholder(dtype="float", shape=[None, 1, self._X.shape[1]], name="x")
-        x = tf.placeholder(dtype="float", shape=[None, self._X.shape[1], self._X.shape[1]], name="x")
-        # y = tf.placeholder("float", [None, self._Y.shape[1]])
-        y = tf.placeholder(dtype="float", shape=[None, self._Y.shape[1]], name="y")
+        # _a[0] = tf.placeholder(dtype="float", shape=[None, n_steps, n_input], name="x") # (batchsize, steps, input) (?, 122, 122)
+        # = to output rbm
+        # inpX = []
 
+        # get ouput from RBM
+        # for rbm in rbm_list:
+        #     #Return the output layer
+        #     inpX = rbm.rbm_outpt(inpX)
+        # inpX = self._X
+        
+        # _a[0] = inpX
+        x = tf.placeholder(dtype="float", shape=[None, n_steps, 5], name="x") # 5 is supposed to be n_input
+        y = tf.placeholder(dtype="float", shape=[None, n_classes], name="y") # num of classes
+        # y = self._Y
+        print("inpX")
+        print(self._X.shape)
+        # print(_a[0].shape) # rows x 122
+        print("Num of features / hidden units. Size of last hidden layer")
+        print(self._sizes[(len(self._sizes)-1)]) # hidden units num of features. how many hidden units to be in RBM?
+        print("Y")
+        print(y.shape) # rows x 23
+        # n_hidden = self._sizes[(len(self._sizes)-1)]
+
+        # Get weights and biases from RBM
+        #Define variables and activation function
+        for i in range(len(self._sizes) + 1):
+            _w[i] = tf.Variable(self.w_list[i])
+            _b[i] = tf.Variable(self.b_list[i])
+        
+        print("Weights:")
+        print(_w)
+        print("Biases:")
+        print(_b)
+
+        # Initialize weights randomly, but we will load in from the RBM anyways. RBM got weights and biases already
+        # weights = {
+        #     'out': tf.Variable(tf.random_normal([self._sizes[1], self._Y.shape[1]]))
+        # }
+        # biases = {
+        #     'out': tf.Variable(tf.random_normal([self._Y.shape[1]]))
+        # }
         weights = {
-            'out': tf.Variable(tf.random_normal([self._sizes[1], self._Y.shape[1]]))
+            'out': _w[(len(self._sizes))] # last layer
         }
         biases = {
-            'out': tf.Variable(tf.random_normal([self._Y.shape[1]]))
+            'out': _b[(len(self._sizes))] # last layer
         }
+        print(weights['out'])
+        print(biases['out'])
 
-        lstm_cell = tf.contrib.rnn.BasicLSTMCell(len(self._sizes) + 1, forget_bias=1.0)
+        lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0) # construct with hidden size of last layer in rbm
 
         outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
+        print(outputs) # (?, 122, 122)
 
-        # output = tf.reshape(tf.split(outputs, 28, axis=1, num=None, name='split')[-1],[-1,128])
-        output = tf.reshape(tf.split(outputs, self._X.shape[1], axis=1, num=None, name='split')[-1],[-1,128])
-        pred = tf.matmul(output, weights['out']) + biases['out']
+        # reshaping, take 5 at a time
+        # originally took 28 x 28
+        # 1 x 28 at time
+        # 5 pieces at a time
+        # so reshape to 1 x 5
 
-        print(pred)
+        # take vector, output into columns of 5
 
-        #Define variables and activation function
-        # for i in range(len(self._sizes) + 1):
-        #     _w[i] = tf.Variable(self.w_list[i])
-        #     _b[i] = tf.Variable(self.b_list[i])
         # for i in range(1, len(self._sizes) + 2):
-        #     _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
-
-        #Define the cost function
-        # cost = tf.reduce_mean(tf.square(_a[-1] - y))
-
-        #Define the training operation (Momentum Optimizer minimizing the Cost function)
-        # train_op = tf.train.MomentumOptimizer(
-        #     self._learning_rate, self._momentum).minimize(cost)
-        
-        # For RNN/LSTM
-        # Define cost function and optimizer
+        output = tf.reshape(tf.split(outputs, n_steps, axis=1, num=None, name='split')[-1],[-1,n_hidden]) # x.shape is input
+        print("Output")
+        print(output)
+        # print("Weight shape")
+        # print(_w[i - 1].shape)
+        pred = tf.matmul(output, weights['out']) + biases['out'] # linear activation to map it to a [?xclasses] [classes = 23] THIS IS NOT RIGHT. NEED TO CREATE PROPER 
+        print(pred)
+        # define cost function
         cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=pred ))
-        optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+        # define training operation (adam optimizer minimizing cost function)
+        optimizer = tf.train.AdamOptimizer(learning_rate=self._learning_rate).minimize(cost)
+        print("optimizer")
+        print(optimizer)
 
-        #Prediction operation
-        # predict_op = tf.argmax(_a[-1], 1)
-
-        # For RNN/LSTM
-        # Here we define the accuracy and evaluation methods to be used in the learning process:
+        # prediction operation
         correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
@@ -375,64 +480,101 @@ class NN(object):
         with tf.Session() as sess:
             sess.run(init)
             step = 1
+            test = 5000 # we use the last 5,000 as test
             # Keep training until reach max iterations
-            while step * batch_size < training_iters:
+            while step * self._batchsize < self._training_iters:
 
-                # We will read a batch of 100 images [100 x 784] as batch_x
-                # batch_y is a matrix of [100x10]
-                batch_x, batch_y = mnist.train.next_batch(batch_size)
-                
-                # We consider each row of the image as one sequence
-                # Reshape data to get 28 seq of 28 elements, so that, batxh_x is [100x28x28]
-                batch_x = batch_x.reshape((batch_size, n_steps, n_input))
-            
+                #For each step
+                for start, end in zip(
+                    range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+                    # range(0, len(self._X)-test, self._batchsize), range(self._batchsize, len(self._X)-test, self._batchsize)):
+                    # print(start)
+                    # print(end)
+                    # print(np.asarray(self._X[start:end].shape))
+                    # print(np.asarray(self._Y[start:end].shape))
+                    # batch_x should be numpy array [batch_size, 25]
+                    # reshape so we get 5 seq of 5 elements, batch_x should be [100x5x5]
+                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+                    # print(batch_x)
+                    # should be [batch_size, 23]
+                    batch_y = np.asarray(self._Y[start:end])
+                    # print(batch_y)
+                    
+                    #Run the training operation on the input data
+                    sess.run(optimizer, feed_dict={
+                    x: batch_x, y: batch_y})
 
-                # Run optimization op (backprop)
-                sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
+                for j in range(len(self._sizes) + 1):
+                    #Retrieve weights and biases
+                    self.w_list[j] = sess.run(_w[j])
+                    self.b_list[j] = sess.run(_b[j])
                 
-                
-                if step % display_step == 0:
+                if step % self._display_step == 0:
+                    # # Calculate batch accuracy
+                    # acc = sess.run(accuracy, feed_dict={
+                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
+                    # # Calculate batch loss
+                    # loss = sess.run(cost, feed_dict={
+                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
                     # Calculate batch accuracy
-                    acc = sess.run(accuracy, feed_dict={x: batch_x, y: batch_y})
+                    acc = sess.run(accuracy, feed_dict={
+                    x: batch_x, y: batch_y})
                     # Calculate batch loss
-                    loss = sess.run(cost, feed_dict={x: batch_x, y: batch_y})
-                    print("Iter " + str(step*batch_size) + ", Minibatch Loss= " + \
+                    loss = sess.run(cost, feed_dict={
+                    x: batch_x, y: batch_y})
+                    print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
                         "{:.6f}".format(loss) + ", Training Accuracy= " + \
                         "{:.5f}".format(acc))
                 step += 1
+
             print("Optimization Finished!")
 
-            # Calculate accuracy for 128 mnist test images
-            test_len = 128
-            test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
-            test_label = mnist.test.labels[:test_len]
-            print("Testing Accuracy:", \
+            # Calculate accuracy on test data
+            # load in test data... have to perform transformations again
+
+            # headers = ["duration","protocol_type","service","flag","src_bytes","dst_bytes","land","wrong_fragment","urgent","hot","num_failed_logins","logged_in","num_compromised","root_shell","su_attempted","num_root","num_file_creations","num_shells","num_access_files","num_outbound_cmds","is_host_login","is_guest_login","count","srv_count","serror_rate","srv_serror_rate","rerror_rate","srv_rerror_rate","same_srv_rate","diff_srv_rate","srv_diff_host_rate","dst_host_count","dst_host_srv_count","dst_host_same_srv_rate","dst_host_diff_srv_rate","dst_host_same_src_port_rate","dst_host_srv_diff_host_rate","dst_host_serror_rate","dst_host_srv_serror_rate","dst_host_rerror_rate","dst_host_srv_rerror_rate","label","idk"]
+
+            # # Read in the CSV file and convert "?" to NaN
+            # test_df = pd.read_csv("KDDTest+.csv",
+            #                 header=None, names=headers, na_values="?" )
+
+            # # Encode categorical variables e.g. protocol_type, service, flag, label
+            # test_obj_df = df.select_dtypes(include=['object']).copy()
+
+            # # Convert to columns of 0 or 1
+            # test_df_with_dummies = pd.get_dummies(df, columns=["protocol_type", "service", "flag", "label"])
+
+            # test_df_X = test_df_with_dummies[['duration', 'src_bytes', 'dst_bytes', 'land', 'wrong_fragment', 'urgent', 'hot', 'num_failed_logins', 'logged_in', 'num_compromised', 'root_shell', 'su_attempted', 'num_root', 'num_file_creations', 'num_shells', 'num_access_files', 'is_host_login', 'is_guest_login', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'srv_rerror_rate', 'same_srv_rate', 'diff_srv_rate', 'srv_diff_host_rate', 'dst_host_count', 'dst_host_srv_count', 'dst_host_same_srv_rate', 'dst_host_diff_srv_rate', 'dst_host_same_src_port_rate', 'dst_host_srv_diff_host_rate', 'dst_host_serror_rate', 'dst_host_srv_serror_rate', 'dst_host_rerror_rate', 'dst_host_srv_rerror_rate', 'idk', 'protocol_type_icmp', 'protocol_type_tcp', 'protocol_type_udp', 'service_IRC', 'service_X11', 'service_Z39_50', 'service_aol', 'service_auth', 'service_bgp', 'service_courier', 'service_csnet_ns', 'service_ctf', 'service_daytime', 'service_discard', 'service_domain', 'service_domain_u', 'service_echo', 'service_eco_i', 'service_ecr_i', 'service_efs', 'service_exec', 'service_finger', 'service_ftp', 'service_ftp_data', 'service_gopher', 'service_harvest', 'service_hostnames', 'service_http', 'service_http_2784', 'service_http_443', 'service_http_8001', 'service_imap4', 'service_iso_tsap', 'service_klogin', 'service_kshell', 'service_ldap', 'service_link', 'service_login', 'service_mtp', 'service_name', 'service_netbios_dgm', 'service_netbios_ns', 'service_netbios_ssn', 'service_netstat', 'service_nnsp', 'service_nntp', 'service_ntp_u', 'service_other', 'service_pm_dump', 'service_pop_2', 'service_pop_3', 'service_printer', 'service_private', 'service_red_i', 'service_remote_job', 'service_rje', 'service_shell', 'service_smtp', 'service_sql_net', 'service_ssh', 'service_sunrpc', 'service_supdup', 'service_systat', 'service_telnet', 'service_tftp_u', 'service_tim_i', 'service_time', 'service_urh_i', 'service_urp_i', 'service_uucp', 'service_uucp_path', 'service_vmnet', 'service_whois', 'flag_OTH', 'flag_REJ', 'flag_RSTO', 'flag_RSTOS0', 'flag_RSTR', 'flag_S0', 'flag_S1', 'flag_S2', 'flag_S3', 'flag_SF', 'flag_SH']]
+            # test_df_Y = test_df_with_dummies[['label_back', 'label_buffer_overflow', 'label_ftp_write', 'label_guess_passwd', 'label_imap', 'label_ipsweep', 'label_land', 'label_loadmodule', 'label_multihop', 'label_neptune', 'label_nmap', 'label_normal', 'label_perl', 'label_phf', 'label_pod', 'label_portsweep', 'label_rootkit', 'label_satan', 'label_smurf', 'label_spy', 'label_teardrop', 'label_warezclient', 'label_warezmaster']]
+            # test_cols = list(test_df_X.columns)
+            # for col in test_cols:
+            #     test_df_X[col] = (test_df_X[col] - test_df_X[col].min())/(test_df_X[col].max() - test_df_X[col].min()) # map to 0 and 1
+
+            # test_trX = test_df_X.as_matrix()
+            # test_trY = test_df_Y.as_matrix()
+            # test_trX = test_trX.astype(np.float32)
+            # test_trY = test_trY.astype(np.float64)
+
+            # How2getaccuracy?
+            # Test is labeled
+
+            for start, end in zip(
+                range(len(self._X)-test, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+                test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+                test_label = np.asarray(self._Y[start:end])
+                
+                #Run the training operation on the input data
+
+                print("Testing Accuracy:", \
                 sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
-        #ORIGINAL SHALLOW NN
-        # #Training Loop
-        # with tf.Session() as sess:
-        #     #Initialize Variables
-        #     sess.run(tf.global_variables_initializer())
+            # # Calculate accuracy for 128 mnist test images
+            # test_len = 128
+            # test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
+            # test_label = mnist.test.labels[:test_len]
+            # print("Testing Accuracy:", \
+            #     sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
-        #     #For each epoch
-        #     for i in range(self._epoches):
-
-        #         #For each step
-        #         for start, end in zip(
-        #             range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
-
-        #             #Run the training operation on the input data
-        #             sess.run(train_op, feed_dict={
-        #                 _a[0]: self._X[start:end], y: self._Y[start:end]})
-
-        #         for j in range(len(self._sizes) + 1):
-        #             #Retrieve weights and biases
-        #             self.w_list[j] = sess.run(_w[j])
-        #             self.b_list[j] = sess.run(_b[j])
-
-        #         print("Accuracy rating for epoch " + str(i) + ": " + str(np.mean(np.argmax(self._Y, axis=1) ==
-        #                       sess.run(predict_op, feed_dict={_a[0]: self._X, y: self._Y}))))
 
 nNet = NN(RBM_hidden_sizes, trX, trY)
 nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
