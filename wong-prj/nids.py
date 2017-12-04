@@ -35,13 +35,6 @@ import pandas as pd
 # http://fastml.com/converting-categorical-data-into-numbers-with-pandas-and-scikit-learn/
 
 # # Define the headers since the data does not have any
-# headers = ["symboling", "normalized_losses", "make", "fuel_type", "aspiration",
-#            "num_doors", "body_style", "drive_wheels", "engine_location",
-#            "wheel_base", "length", "width", "height", "curb_weight",
-#            "engine_type", "num_cylinders", "engine_size", "fuel_system",
-#            "bore", "stroke", "compression_ratio", "horsepower", "peak_rpm",
-#            "city_mpg", "highway_mpg", "price"]
-
 headers = ["duration","protocol_type","service","flag","src_bytes","dst_bytes","land","wrong_fragment","urgent","hot","num_failed_logins","logged_in","num_compromised","root_shell","su_attempted","num_root","num_file_creations","num_shells","num_access_files","num_outbound_cmds","is_host_login","is_guest_login","count","srv_count","serror_rate","srv_serror_rate","rerror_rate","srv_rerror_rate","same_srv_rate","diff_srv_rate","srv_diff_host_rate","dst_host_count","dst_host_srv_count","dst_host_same_srv_rate","dst_host_diff_srv_rate","dst_host_same_src_port_rate","dst_host_srv_diff_host_rate","dst_host_serror_rate","dst_host_srv_serror_rate","dst_host_rerror_rate","dst_host_srv_rerror_rate","label","idk"]
 
 # Read in the CSV file and convert "?" to NaN
@@ -208,21 +201,10 @@ class RBM(object):
             sess.run(tf.global_variables_initializer())
             return sess.run(out)
 
-#Getting the MNIST data provided by Tensorflow
-# from tensorflow.examples.tutorials.mnist import input_data
-
-# #Loading in the mnist data
-# mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-# trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images,\
-#     mnist.test.labels
-
 # print(trX.shape) # rows x features
 # print(trY.shape) # classes. 10 digits
 # print(trX.dtype) # float 32
 # print(trY.dtype) # float 64
-
-# import time
-# time.sleep(100)
 
 #Load in our data
 # data = read_data_sets(FLAGS.data_dir, 
@@ -242,6 +224,7 @@ class RBM(object):
 # RBM_hidden_sizes = [40,20,10]
 # RBM_hidden_sizes = [10,5]
 # RBM_hidden_sizes = [40,25]
+# RBM_hidden_sizes = [100,50,25]
 # RBM_hidden_sizes = [100,50,25]
 RBM_hidden_sizes = [100,25]
 
@@ -290,7 +273,8 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        self._learning_rate =  1.0
+        # self._learning_rate =  1.0
+        self._learning_rate = .1
         self._momentum = 0.0
         self._training_iters = 100000
         self._display_step = 10
@@ -324,59 +308,6 @@ class NN(object):
         for i in range(len(self._sizes)):
             self.w_list[i] = rbm_list[i].w
             self.b_list[i] = rbm_list[i].hb
-
-    #Training method - Original shallow NN
-    # def train(self):
-    #     #Create placeholders for input, weights, biases, output
-    #     _a = [None] * (len(self._sizes) + 2)
-    #     _w = [None] * (len(self._sizes) + 1)
-    #     _b = [None] * (len(self._sizes) + 1)
-    #     _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
-    #     y = tf.placeholder("float", [None, self._Y.shape[1]])
-        
-    #     #Define variables and activation function
-    #     for i in range(len(self._sizes) + 1):
-    #         _w[i] = tf.Variable(self.w_list[i])
-    #         _b[i] = tf.Variable(self.b_list[i])
-    #     for i in range(1, len(self._sizes) + 2):
-    #         _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
-
-    #     print(_w)
-        
-    #     #Define the cost function
-    #     cost = tf.reduce_mean(tf.square(_a[-1] - y))
-        
-    #     #Define the training operation (Momentum Optimizer minimizing the Cost function)
-    #     train_op = tf.train.MomentumOptimizer(
-    #         self._learning_rate, self._momentum).minimize(cost)
-        
-    #     #Prediction operation
-    #     predict_op = tf.argmax(_a[-1], 1)
-        
-    #     #Training Loop
-    #     with tf.Session() as sess:
-    #         #Initialize Variables
-    #         sess.run(tf.global_variables_initializer())
-            
-    #         #For each epoch
-    #         for i in range(self._epoches):
-                
-    #             #For each step
-    #             for start, end in zip(
-    #                 range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
-                    
-    #                 #Run the training operation on the input data
-    #                 sess.run(train_op, feed_dict={
-    #                     _a[0]: self._X[start:end], y: self._Y[start:end]})
-                
-    #             for j in range(len(self._sizes) + 1):
-    #                 #Retrieve weights and biases
-    #                 self.w_list[j] = sess.run(_w[j])
-    #                 self.b_list[j] = sess.run(_b[j])
-                
-    #             print("Accuracy rating for epoch " + str(i) + ": " + str(np.mean(np.argmax(self._Y, axis=1) ==
-    #                           sess.run(predict_op, feed_dict={_a[0]: self._X, y: self._Y}))))
-
 
     #Training method
     def train(self):
@@ -479,14 +410,129 @@ class NN(object):
 
         with tf.Session() as sess:
             sess.run(init)
-            step = 1
+            step = 0
             test = 5000 # we use the last 5,000 as test
             # Keep training until reach max iterations
-            while step * self._batchsize < self._training_iters:
+            start = 0
+            end = 100
+            # while step * self._batchsize < self._training_iters:
+            #For each epoch
+            for i in range(self._epoches):
+
+                while step * self._batchsize < len(self._X)-test:
+
+                    # print(len(self._X)-test)
+                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+                    batch_y = np.asarray(self._Y[start:end])
+                    sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
+                    if step % self._display_step == 0:
+                        # # Calculate batch accuracy
+                        # acc = sess.run(accuracy, feed_dict={
+                        #     x[0]: self._X[start:end], y: self._Y[start:end]})
+                        # # Calculate batch loss
+                        # loss = sess.run(cost, feed_dict={
+                        #     x[0]: self._X[start:end], y: self._Y[start:end]})
+                        # Calculate batch accuracy
+                        acc = sess.run(accuracy, feed_dict={
+                        x: batch_x, y: batch_y})
+                        # Calculate batch loss
+                        loss = sess.run(cost, feed_dict={
+                        x: batch_x, y: batch_y})
+                        print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
+                            "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                            "{:.5f}".format(acc))
+
+                    start += 100
+                    end += 100
+                    step += 1
+
+                    for j in range(len(self._sizes) + 1):
+                        #Retrieve weights and biases
+                        self.w_list[j] = sess.run(_w[j])
+                        self.b_list[j] = sess.run(_b[j])
+
+                print("Optimization Finished!")
+
+                # Test
+
+                start = len(self._X)-test
+                end = len(self._X)
+                # test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5))
+                test_label = np.asarray(self._Y[start:end])
+                
+                #Run the training operation on the input data
+
+                print("Testing Accuracy:", \
+                sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+
+                step = 0
+                start = 0
+                end = 100
+
+nNet = NN(RBM_hidden_sizes, trX, trY)
+nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
+nNet.train()
+
+
+#Training method - Original shallow NN
+    # def train(self):
+    #     #Create placeholders for input, weights, biases, output
+    #     _a = [None] * (len(self._sizes) + 2)
+    #     _w = [None] * (len(self._sizes) + 1)
+    #     _b = [None] * (len(self._sizes) + 1)
+    #     _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
+    #     y = tf.placeholder("float", [None, self._Y.shape[1]])
+        
+    #     #Define variables and activation function
+    #     for i in range(len(self._sizes) + 1):
+    #         _w[i] = tf.Variable(self.w_list[i])
+    #         _b[i] = tf.Variable(self.b_list[i])
+    #     for i in range(1, len(self._sizes) + 2):
+    #         _a[i] = tf.nn.sigmoid(tf.matmul(_a[i - 1], _w[i - 1]) + _b[i - 1])
+
+    #     print(_w)
+        
+    #     #Define the cost function
+    #     cost = tf.reduce_mean(tf.square(_a[-1] - y))
+        
+    #     #Define the training operation (Momentum Optimizer minimizing the Cost function)
+    #     train_op = tf.train.MomentumOptimizer(
+    #         self._learning_rate, self._momentum).minimize(cost)
+        
+    #     #Prediction operation
+    #     predict_op = tf.argmax(_a[-1], 1)
+        
+    #     #Training Loop
+    #     with tf.Session() as sess:
+    #         #Initialize Variables
+    #         sess.run(tf.global_variables_initializer())
+            
+    #         #For each epoch
+    #         for i in range(self._epoches):
+                
+    #             #For each step
+    #             for start, end in zip(
+    #                 range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+                    
+    #                 #Run the training operation on the input data
+    #                 sess.run(train_op, feed_dict={
+    #                     _a[0]: self._X[start:end], y: self._Y[start:end]})
+                
+    #             for j in range(len(self._sizes) + 1):
+    #                 #Retrieve weights and biases
+    #                 self.w_list[j] = sess.run(_w[j])
+    #                 self.b_list[j] = sess.run(_b[j])
+                
+    #             print("Accuracy rating for epoch " + str(i) + ": " + str(np.mean(np.argmax(self._Y, axis=1) ==
+    #                           sess.run(predict_op, feed_dict={_a[0]: self._X, y: self._Y}))))
+
+
+
 
                 #For each step
-                for start, end in zip(
-                    range(0, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+                # for start, end in zip(
+                #     range(0, len(self._X)-test, self._batchsize), range(self._batchsize, len(self._X)-test, self._batchsize)):
                     # range(0, len(self._X)-test, self._batchsize), range(self._batchsize, len(self._X)-test, self._batchsize)):
                     # print(start)
                     # print(end)
@@ -494,40 +540,68 @@ class NN(object):
                     # print(np.asarray(self._Y[start:end].shape))
                     # batch_x should be numpy array [batch_size, 25]
                     # reshape so we get 5 seq of 5 elements, batch_x should be [100x5x5]
-                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+
+                    # batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+
                     # print(batch_x)
                     # should be [batch_size, 23]
-                    batch_y = np.asarray(self._Y[start:end])
+
+                    # batch_y = np.asarray(self._Y[start:end])
+
                     # print(batch_y)
                     
                     #Run the training operation on the input data
-                    sess.run(optimizer, feed_dict={
-                    x: batch_x, y: batch_y})
+                    # sess.run(optimizer, feed_dict={
+                    # x: batch_x, y: batch_y})
 
-                for j in range(len(self._sizes) + 1):
-                    #Retrieve weights and biases
-                    self.w_list[j] = sess.run(_w[j])
-                    self.b_list[j] = sess.run(_b[j])
+                    # if step % self._display_step == 0:
+                    #     # # Calculate batch accuracy
+                    #     # acc = sess.run(accuracy, feed_dict={
+                    #     #     x[0]: self._X[start:end], y: self._Y[start:end]})
+                    #     # # Calculate batch loss
+                    #     # loss = sess.run(cost, feed_dict={
+                    #     #     x[0]: self._X[start:end], y: self._Y[start:end]})
+                    #     # Calculate batch accuracy
+                    #     acc = sess.run(accuracy, feed_dict={
+                    #     x: batch_x, y: batch_y})
+                    #     # Calculate batch loss
+                    #     loss = sess.run(cost, feed_dict={
+                    #     x: batch_x, y: batch_y})
+                    #     print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
+                    #         "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                    #         "{:.5f}".format(acc))
+
+                    # step += 1
+
+                # for j in range(len(self._sizes) + 1):
+                #     #Retrieve weights and biases
+                #     self.w_list[j] = sess.run(_w[j])
+                #     self.b_list[j] = sess.run(_b[j])
                 
-                if step % self._display_step == 0:
-                    # # Calculate batch accuracy
-                    # acc = sess.run(accuracy, feed_dict={
-                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
-                    # # Calculate batch loss
-                    # loss = sess.run(cost, feed_dict={
-                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
-                    # Calculate batch accuracy
-                    acc = sess.run(accuracy, feed_dict={
-                    x: batch_x, y: batch_y})
-                    # Calculate batch loss
-                    loss = sess.run(cost, feed_dict={
-                    x: batch_x, y: batch_y})
-                    print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
-                        "{:.6f}".format(loss) + ", Training Accuracy= " + \
-                        "{:.5f}".format(acc))
-                step += 1
+                
 
-            print("Optimization Finished!")
+            # print("Optimization Finished!")
+
+            # for start, end in zip(
+            #     range(len(self._X)-test, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+            #     test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+            #     test_label = np.asarray(self._Y[start:end])
+            # while step * self._batchsize < len(self._X):
+            # start = len(self._X)-test
+            # end = len(self._X)
+            # print(start)
+            # print(end)
+            # # test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+            # test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5))
+            # test_label = np.asarray(self._Y[start:end])
+            
+            # #Run the training operation on the input data
+
+            # print("Testing Accuracy:", \
+            # sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+                # start += 100
+                # end += 100
+                # step += 1
 
             # Calculate accuracy on test data
             # load in test data... have to perform transformations again
@@ -558,15 +632,15 @@ class NN(object):
             # How2getaccuracy?
             # Test is labeled
 
-            for start, end in zip(
-                range(len(self._X)-test, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
-                test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
-                test_label = np.asarray(self._Y[start:end])
+            # for start, end in zip(
+            #     range(len(self._X)-test, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
+            #     test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+            #     test_label = np.asarray(self._Y[start:end])
                 
-                #Run the training operation on the input data
+            #     #Run the training operation on the input data
 
-                print("Testing Accuracy:", \
-                sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+            #     print("Testing Accuracy:", \
+            #     sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
             # # Calculate accuracy for 128 mnist test images
             # test_len = 128
@@ -576,9 +650,9 @@ class NN(object):
             #     sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
 
-nNet = NN(RBM_hidden_sizes, trX, trY)
-nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
-nNet.train()
+# nNet = NN(RBM_hidden_sizes, trX, trY)
+# nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
+# nNet.train()
 
 
 
