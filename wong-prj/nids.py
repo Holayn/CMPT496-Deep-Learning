@@ -94,6 +94,7 @@ print(trX.shape)
 print(trY.shape)
 print(trX.dtype)
 print(trY.dtype)
+# 122 features
 
 # write into csv
 # df_X.to_csv("nids4.csv")
@@ -257,7 +258,7 @@ for rbm in rbm_list:
     print(inpX.shape)
 
 print(inpX.shape)
-trX = inpX # ?
+trX = inpX
 
 import numpy as np
 import math
@@ -273,8 +274,8 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        # self._learning_rate =  1.0
-        self._learning_rate = .1
+        self._learning_rate =  1.0
+        # self._learning_rate = .1
         self._momentum = 0.0
         self._training_iters = 100000
         self._display_step = 10
@@ -334,13 +335,10 @@ class NN(object):
         #     inpX = rbm.rbm_outpt(inpX)
         # inpX = self._X
         
-        # _a[0] = inpX
         x = tf.placeholder(dtype="float", shape=[None, n_steps, 5], name="x") # 5 is supposed to be n_input
         y = tf.placeholder(dtype="float", shape=[None, n_classes], name="y") # num of classes
-        # y = self._Y
         print("inpX")
         print(self._X.shape)
-        # print(_a[0].shape) # rows x 122
         print("Num of features / hidden units. Size of last hidden layer")
         print(self._sizes[(len(self._sizes)-1)]) # hidden units num of features. how many hidden units to be in RBM?
         print("Y")
@@ -358,13 +356,7 @@ class NN(object):
         print("Biases:")
         print(_b)
 
-        # Initialize weights randomly, but we will load in from the RBM anyways. RBM got weights and biases already
-        # weights = {
-        #     'out': tf.Variable(tf.random_normal([self._sizes[1], self._Y.shape[1]]))
-        # }
-        # biases = {
-        #     'out': tf.Variable(tf.random_normal([self._Y.shape[1]]))
-        # }
+        # Load in weights and biases from the last layer in the RBM
         weights = {
             'out': _w[(len(self._sizes))] # last layer
         }
@@ -411,7 +403,8 @@ class NN(object):
         with tf.Session() as sess:
             sess.run(init)
             step = 0
-            test = 5000 # we use the last 5,000 as test
+            # test = 5000 # we use the last 5,000 as test
+            test = 30000 # we use the last 30,000 as test a.k.a. 1/4 data set
             # Keep training until reach max iterations
             start = 0
             end = 100
@@ -426,12 +419,6 @@ class NN(object):
                     batch_y = np.asarray(self._Y[start:end])
                     sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
                     if step % self._display_step == 0:
-                        # # Calculate batch accuracy
-                        # acc = sess.run(accuracy, feed_dict={
-                        #     x[0]: self._X[start:end], y: self._Y[start:end]})
-                        # # Calculate batch loss
-                        # loss = sess.run(cost, feed_dict={
-                        #     x[0]: self._X[start:end], y: self._Y[start:end]})
                         # Calculate batch accuracy
                         acc = sess.run(accuracy, feed_dict={
                         x: batch_x, y: batch_y})
@@ -454,11 +441,9 @@ class NN(object):
                 print("Optimization Finished!")
 
                 # Test
-
                 start = len(self._X)-test
                 end = len(self._X)
-                # test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
-                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5))
+                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5)) # (batchsize, n_steps, 5)
                 test_label = np.asarray(self._Y[start:end])
                 
                 #Run the training operation on the input data
@@ -466,6 +451,7 @@ class NN(object):
                 print("Testing Accuracy:", \
                 sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
+                # Reset to run next epoch
                 step = 0
                 start = 0
                 end = 100
