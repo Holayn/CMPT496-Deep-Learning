@@ -35,7 +35,7 @@ decay = 0.5
 #The size for each batch of data
 batch_size = 1
 #The size of our vocabulary
-vocab_size = 2722
+vocab_size = 10000
 #Training flag to separate training from testing
 is_training = 1
 #Data directory for our dataset
