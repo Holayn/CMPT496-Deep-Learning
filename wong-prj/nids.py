@@ -4,7 +4,9 @@ from __future__ import absolute_import
 import time
 from os.path import join as pjoin
 
+#Numpy contains helpful functions for efficient mathematical calculations
 import numpy as np
+#Tensorflow library. Used to implement machine learning models
 import tensorflow as tf
 from data import fill_feed_dict_ae, read_data_sets_pretraining
 from data import read_data_sets, fill_feed_dict
@@ -15,19 +17,35 @@ from utils import tile_raster_images
 
 #Import the math function for calculations
 import math
-#Tensorflow library. Used to implement machine learning models
-import tensorflow as tf
-#Numpy contains helpful functions for efficient mathematical calculations
-import numpy as np
 #Image library for image manipulation
 from PIL import Image
 import sys
-#import Image
 #Utils file
 from utils import tile_raster_images
 
 ######
 import pandas as pd
+
+# python nids.py <RBM1> <RBM2> <RBM3> <RBMEPOCHS> <RBMLEARNRATE> <RNNLEARNRATE> <RNNEOPCHS>
+
+# PARAMETERS FOR RBM
+param_rbm_hidden_sizes = []
+
+if int(sys.argv[3]) == 0:
+    # 2 layers
+    param_rbm_hidden_sizes = [int(sys.argv[1]), int(sys.argv[2])]
+else:
+    # 3 layers
+    param_rbm_hidden_sizes = [int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])]
+
+param_rbm_epochs = int(sys.argv[4])
+param_rbm_learning_rate = float(sys.argv[5])
+
+# PARAMETERS FOR RNN/LSTM
+param_rnnlstm_learning_rate = float(sys.argv[6])
+param_rnnlstm_epochs = int(sys.argv[7])
+
+
 
 
 # READING IN DATA AND CONVERTING TO 1HE: 
@@ -40,8 +58,6 @@ headers = ["duration","protocol_type","service","flag","src_bytes","dst_bytes","
 # Read in the CSV file and convert "?" to NaN
 df = pd.read_csv("KDDTrain+.csv",
                   header=None, names=headers, na_values="?" )
-
-# df.to_csv("nidsOrig.csv")
 
 # print(df.head())
 print(df.dtypes)
@@ -80,13 +96,11 @@ for col in cols:
     # df_X[col] = df_X[col] * 255.0
 
 print("After conversions")
-print(df_X)
-print(df_Y)
+# print(df_X)
+# print(df_Y)
 print(df_with_dummies.describe())
 
 trX = df_X.as_matrix()
-# trX.to_csv("nids5.csv")
-# np.savetxt("nids8.csv", trX, delimiter=",")
 trY = df_Y.as_matrix()
 trX = trX.astype(np.float32)
 trY = trY.astype(np.float64)
@@ -97,7 +111,6 @@ print(trY.dtype)
 # 122 features
 
 # write into csv
-# df_X.to_csv("nids4.csv")
 # trX is a row, image converted into vector
 # Take data and put into autoencoder
 # in data processing, need to normalize data (zscore)
@@ -114,8 +127,8 @@ class RBM(object):
         #Defining the hyperparameters
         self._input_size = input_size #Size of input
         self._output_size = output_size #Size of output
-        self.epochs = 25 #Amount of training iterations
-        self.learning_rate = 1.0 #The step used in gradient descent
+        self.epochs = param_rbm_epochs #Amount of training iterations orig: 25
+        self.learning_rate = param_rbm_learning_rate #The step used in gradient descent orig: 1.0
         self.batchsize = 100 #The size of how much data will be used for training per sub iteration
 
         #Initializing weights and biases as matrices full of zeroes
@@ -207,17 +220,6 @@ class RBM(object):
 # print(trX.dtype) # float 32
 # print(trY.dtype) # float 64
 
-#Load in our data
-# data = read_data_sets(FLAGS.data_dir, 
-#                           sub['tr'], sub['te'], sub['val'],
-#                           one_hot=False)
-
-# labels_placeholder = tf.placeholder(tf.int32,
-#                                         shape=FLAGS.batch_size,
-#                                         name='target_pl')
-
-# trX, trY = data.train, labels_placeholder
-
 # RBM_hidden_sizes = [neurons1, neurons2]
 # 50 epochs for each rbm
 # 25 epochs for fine tuning
@@ -225,9 +227,8 @@ class RBM(object):
 # RBM_hidden_sizes = [40,20,10]
 # RBM_hidden_sizes = [10,5]
 # RBM_hidden_sizes = [40,25]
-# RBM_hidden_sizes = [100,50,25]
-# RBM_hidden_sizes = [100,50,25]
-RBM_hidden_sizes = [100,25]
+# RBM_hidden_sizes = [100,25]
+RBM_hidden_sizes = param_rbm_hidden_sizes # parameterized
 
 # of last layer of RBM should be same as number of classes or greater
 
@@ -260,11 +261,6 @@ for rbm in rbm_list:
 print(inpX.shape)
 trX = inpX
 
-import numpy as np
-import math
-import tensorflow as tf
-
-
 class NN(object):
 
     def __init__(self, sizes, X, Y):
@@ -274,12 +270,11 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        self._learning_rate =  1.0
-        # self._learning_rate = .1
+        self._learning_rate = param_rnnlstm_learning_rate # orig: 1.0
         self._momentum = 0.0
         self._training_iters = 100000
-        self._display_step = 10
-        self._epoches = 25
+        self._display_step = 100 # orig: 10
+        self._epoches = param_rnnlstm_epochs # orig: 25
         self._batchsize = 100
         input_size = X.shape[1]
 
@@ -316,8 +311,7 @@ class NN(object):
         n_steps = 5
         n_input = self._X.shape[1] # 122    no should be 25. last layer
         n_classes = self._Y.shape[1] # 23   is number of classes
-        # n_hidden = 122
-        n_hidden = 25
+        n_hidden = n_input # orig: 25
         print("Classes") # should be 23 classes
         print(n_classes)
         #Create placeholders for input, weights, biases, output
@@ -368,6 +362,20 @@ class NN(object):
 
         lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0) # construct with hidden size of last layer in rbm
 
+        # num_layers = 3
+        # state_size = 100
+        # embeddings = tf.get_variable('embedding_matrix', [n_classes, state_size])
+        # rnn_inputs = [tf.squeeze(i) for i in tf.split(1,
+        #                             n_steps, tf.nn.embedding_lookup(embeddings, x))]
+        # cell = tf.nn.rnn_cell.LSTMCell(n_hidden, state_is_tuple=True)
+        # cell = tf.nn.rnn_cell.MultiRNNCell([cell] * num_layers, state_is_tuple=True)
+
+        # stacked_lstm = tf.contrib.rnn.MultiRNNCell([lstm_cell] * num_layers)
+
+        # initial_state = stacked_lstm.zero_state(self._batchsize, tf.float32)
+
+        # outputs, states = tf.nn.dynamic_rnn(stacked_lstm, inputs=x, dtype=tf.float32)
+        # outputs, states = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, dtype=tf.float32, initial_state=initial_state)
         outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
         print(outputs) # (?, 122, 122)
 
@@ -385,7 +393,7 @@ class NN(object):
         print(output)
         # print("Weight shape")
         # print(_w[i - 1].shape)
-        pred = tf.matmul(output, weights['out']) + biases['out'] # linear activation to map it to a [?xclasses] [classes = 23] THIS IS NOT RIGHT. NEED TO CREATE PROPER 
+        pred = tf.matmul(output, weights['out']) + biases['out'] # linear activation to map it to a [?xclasses] [classes = 23]
         print(pred)
         # define cost function
         cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=pred ))
