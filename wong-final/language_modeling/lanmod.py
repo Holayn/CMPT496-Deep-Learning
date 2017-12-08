@@ -10,19 +10,20 @@ import tensorflow as tf
 
 import reader
 
+# python lanmod.py <NUMSTEPS> <HIDDENSIZE>
 
 #Initial weight scale
 init_scale = 0.1
 #Initial learning rate
-learning_rate = 1.0
+learning_rate = float(sys.argv[1]) # 1.0
 #Maximum permissible norm for the gradient (For gradient clipping -- another measure against Exploding Gradients)
 max_grad_norm = 5
 #The number of layers in our model
 num_layers = 2
 #The total number of recurrence steps, also known as the number of layers when our RNN is "unfolded"
-num_steps = 20
+num_steps = int(sys.argv[2]) # 20
 #The number of processing units (neurons) in the hidden layers
-hidden_size = 200
+hidden_size = int(sys.argv[3]) # 200
 #The maximum number of epochs trained with the initial learning rate
 max_epoch = 4
 #The total number of epochs in training
