@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 import reader
+import sys
 
 # python lanmod.py <LEARNRATE> <DECAY> <NUMSTEPS> <HIDDENSIZE>
 
