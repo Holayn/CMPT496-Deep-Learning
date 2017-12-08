@@ -1,18 +1,10 @@
-python lanmod.py 1.0 0.5 20 100 >D:\final_1_5_20_100
-python lanmod.py 1.0 0.5 20 200 >D:\final_1_5_20_200
-python lanmod.py 1.0 0.5 20 400 >D:\final_1_5_20_400
-python lanmod.py 1.0 0.5 20 600 >D:\final_1_5_20_600
-python lanmod.py 1.0 0.5 20 800 >D:\final_1_5_20_800
-python lanmod.py 1.0 0.5 20 1000 >D:\final_1_5_20_1000
-python lanmod.py 1.0 0.5 20 1200 >D:\final_1_5_20_1200
-python lanmod.py 2.0 0.5 20 1200 >D:\final_2_5_20_1200
-python lanmod.py 1.0 0.8 20 200 >D:\final_1_8_20_200
-python lanmod.py 1.0 0.8 20 400 >D:\final_1_8_20_400
-python lanmod.py 1.0 0.5 20 200 >D:\final_1_5_20_200
-python lanmod.py 1.0 0.5 20 400 >D:\final_1_5_20_400
-python lanmod.py 1.0 0.5 25 200 >D:\final_1_5_25_200
-python lanmod.py 1.0 0.5 25 400 >D:\final_1_5_25_400
-python lanmod.py 1.0 0.5 30 200 >D:\final_1_5_30_200
-python lanmod.py 1.0 0.5 30 400 >D:\final_1_5_30_400
-python lanmod.py 1.0 0.5 40 200 >D:\final_1_5_40_200
-python lanmod.py 1.0 0.5 40 400 >D:\final_1_5_40_400
+python lanmod.py 2.0 0.25 20 200 >D:\final_2_25_20_200
+python lanmod.py 2.0 0.25 20 400 >D:\final_2_25_20_400
+
+python lanmod.py 0.1 0.5 20 200 >D:\final_01_5_20_200
+python lanmod.py 0.01 0.5 20 200 >D:\final_001_5_20_200
+python lanmod.py 0.001 0.5 20 200 >D:\final_0001_5_20_200
+
+python lanmod.py 0.1 0.97 20 200 >D:\final_01_97_20_200
+python lanmod.py 0.01 0.97 20 200 >D:\final_001_97_20_200
+python lanmod.py 0.001 0.97 20 200 >D:\final_0001_97_20_200
