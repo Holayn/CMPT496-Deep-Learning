@@ -1,0 +1,534 @@
+duration                         int64
+protocol_type                   object
+service                         object
+flag                            object
+src_bytes                        int64
+dst_bytes                        int64
+land                             int64
+wrong_fragment                   int64
+urgent                           int64
+hot                              int64
+num_failed_logins                int64
+logged_in                        int64
+num_compromised                  int64
+root_shell                       int64
+su_attempted                     int64
+num_root                         int64
+num_file_creations               int64
+num_shells                       int64
+num_access_files                 int64
+num_outbound_cmds                int64
+is_host_login                    int64
+is_guest_login                   int64
+count                            int64
+srv_count                        int64
+serror_rate                    float64
+srv_serror_rate                float64
+rerror_rate                    float64
+srv_rerror_rate                float64
+same_srv_rate                  float64
+diff_srv_rate                  float64
+srv_diff_host_rate             float64
+dst_host_count                   int64
+dst_host_srv_count               int64
+dst_host_same_srv_rate         float64
+dst_host_diff_srv_rate         float64
+dst_host_same_src_port_rate    float64
+dst_host_srv_diff_host_rate    float64
+dst_host_serror_rate           float64
+dst_host_srv_serror_rate       float64
+dst_host_rerror_rate           float64
+dst_host_srv_rerror_rate       float64
+label                           object
+idk                              int64
+dtype: object
+  protocol_type   service flag    label
+0           tcp  ftp_data   SF   normal
+1           udp     other   SF   normal
+2           tcp   private   S0  neptune
+3           tcp      http   SF   normal
+4           tcp      http   SF   normal
+(125973, 146)
+['duration', 'src_bytes', 'dst_bytes', 'land', 'wrong_fragment', 'urgent', 'hot', 'num_failed_logins', 'logged_in', 'num_compromised', 'root_shell', 'su_attempted', 'num_root', 'num_file_creations', 'num_shells', 'num_access_files', 'num_outbound_cmds', 'is_host_login', 'is_guest_login', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'srv_rerror_rate', 'same_srv_rate', 'diff_srv_rate', 'srv_diff_host_rate', 'dst_host_count', 'dst_host_srv_count', 'dst_host_same_srv_rate', 'dst_host_diff_srv_rate', 'dst_host_same_src_port_rate', 'dst_host_srv_diff_host_rate', 'dst_host_serror_rate', 'dst_host_srv_serror_rate', 'dst_host_rerror_rate', 'dst_host_srv_rerror_rate', 'idk', 'protocol_type_icmp', 'protocol_type_tcp', 'protocol_type_udp', 'service_IRC', 'service_X11', 'service_Z39_50', 'service_aol', 'service_auth', 'service_bgp', 'service_courier', 'service_csnet_ns', 'service_ctf', 'service_daytime', 'service_discard', 'service_domain', 'service_domain_u', 'service_echo', 'service_eco_i', 'service_ecr_i', 'service_efs', 'service_exec', 'service_finger', 'service_ftp', 'service_ftp_data', 'service_gopher', 'service_harvest', 'service_hostnames', 'service_http', 'service_http_2784', 'service_http_443', 'service_http_8001', 'service_imap4', 'service_iso_tsap', 'service_klogin', 'service_kshell', 'service_ldap', 'service_link', 'service_login', 'service_mtp', 'service_name', 'service_netbios_dgm', 'service_netbios_ns', 'service_netbios_ssn', 'service_netstat', 'service_nnsp', 'service_nntp', 'service_ntp_u', 'service_other', 'service_pm_dump', 'service_pop_2', 'service_pop_3', 'service_printer', 'service_private', 'service_red_i', 'service_remote_job', 'service_rje', 'service_shell', 'service_smtp', 'service_sql_net', 'service_ssh', 'service_sunrpc', 'service_supdup', 'service_systat', 'service_telnet', 'service_tftp_u', 'service_tim_i', 'service_time', 'service_urh_i', 'service_urp_i', 'service_uucp', 'service_uucp_path', 'service_vmnet', 'service_whois', 'flag_OTH', 'flag_REJ', 'flag_RSTO', 'flag_RSTOS0', 'flag_RSTR', 'flag_S0', 'flag_S1', 'flag_S2', 'flag_S3', 'flag_SF', 'flag_SH', 'label_back', 'label_buffer_overflow', 'label_ftp_write', 'label_guess_passwd', 'label_imap', 'label_ipsweep', 'label_land', 'label_loadmodule', 'label_multihop', 'label_neptune', 'label_nmap', 'label_normal', 'label_perl', 'label_phf', 'label_pod', 'label_portsweep', 'label_rootkit', 'label_satan', 'label_smurf', 'label_spy', 'label_teardrop', 'label_warezclient', 'label_warezmaster']
+['duration', 'src_bytes', 'dst_bytes', 'land', 'wrong_fragment', 'urgent', 'hot', 'num_failed_logins', 'logged_in', 'num_compromised', 'root_shell', 'su_attempted', 'num_root', 'num_file_creations', 'num_shells', 'num_access_files', 'is_host_login', 'is_guest_login', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'srv_rerror_rate', 'same_srv_rate', 'diff_srv_rate', 'srv_diff_host_rate', 'dst_host_count', 'dst_host_srv_count', 'dst_host_same_srv_rate', 'dst_host_diff_srv_rate', 'dst_host_same_src_port_rate', 'dst_host_srv_diff_host_rate', 'dst_host_serror_rate', 'dst_host_srv_serror_rate', 'dst_host_rerror_rate', 'dst_host_srv_rerror_rate', 'idk', 'protocol_type_icmp', 'protocol_type_tcp', 'protocol_type_udp', 'service_IRC', 'service_X11', 'service_Z39_50', 'service_aol', 'service_auth', 'service_bgp', 'service_courier', 'service_csnet_ns', 'service_ctf', 'service_daytime', 'service_discard', 'service_domain', 'service_domain_u', 'service_echo', 'service_eco_i', 'service_ecr_i', 'service_efs', 'service_exec', 'service_finger', 'service_ftp', 'service_ftp_data', 'service_gopher', 'service_harvest', 'service_hostnames', 'service_http', 'service_http_2784', 'service_http_443', 'service_http_8001', 'service_imap4', 'service_iso_tsap', 'service_klogin', 'service_kshell', 'service_ldap', 'service_link', 'service_login', 'service_mtp', 'service_name', 'service_netbios_dgm', 'service_netbios_ns', 'service_netbios_ssn', 'service_netstat', 'service_nnsp', 'service_nntp', 'service_ntp_u', 'service_other', 'service_pm_dump', 'service_pop_2', 'service_pop_3', 'service_printer', 'service_private', 'service_red_i', 'service_remote_job', 'service_rje', 'service_shell', 'service_smtp', 'service_sql_net', 'service_ssh', 'service_sunrpc', 'service_supdup', 'service_systat', 'service_telnet', 'service_tftp_u', 'service_tim_i', 'service_time', 'service_urh_i', 'service_urp_i', 'service_uucp', 'service_uucp_path', 'service_vmnet', 'service_whois', 'flag_OTH', 'flag_REJ', 'flag_RSTO', 'flag_RSTOS0', 'flag_RSTR', 'flag_S0', 'flag_S1', 'flag_S2', 'flag_S3', 'flag_SF', 'flag_SH']
+After conversions
+           duration     src_bytes     dst_bytes           land  \
+count  125973.00000  1.259730e+05  1.259730e+05  125973.000000   
+mean      287.14465  4.556674e+04  1.977911e+04       0.000198   
+std      2604.51531  5.870331e+06  4.021269e+06       0.014086   
+min         0.00000  0.000000e+00  0.000000e+00       0.000000   
+25%         0.00000  0.000000e+00  0.000000e+00       0.000000   
+50%         0.00000  4.400000e+01  0.000000e+00       0.000000   
+75%         0.00000  2.760000e+02  5.160000e+02       0.000000   
+max     42908.00000  1.379964e+09  1.309937e+09       1.000000   
+
+       wrong_fragment         urgent            hot  num_failed_logins  \
+count   125973.000000  125973.000000  125973.000000      125973.000000   
+mean         0.022687       0.000111       0.204409           0.001222   
+std          0.253530       0.014366       2.149968           0.045239   
+min          0.000000       0.000000       0.000000           0.000000   
+25%          0.000000       0.000000       0.000000           0.000000   
+50%          0.000000       0.000000       0.000000           0.000000   
+75%          0.000000       0.000000       0.000000           0.000000   
+max          3.000000       3.000000      77.000000           5.000000   
+
+           logged_in  num_compromised        ...              label_phf  \
+count  125973.000000    125973.000000        ...          125973.000000   
+mean        0.395736         0.279250        ...               0.000032   
+std         0.489010        23.942042        ...               0.005635   
+min         0.000000         0.000000        ...               0.000000   
+25%         0.000000         0.000000        ...               0.000000   
+50%         0.000000         0.000000        ...               0.000000   
+75%         1.000000         0.000000        ...               0.000000   
+max         1.000000      7479.000000        ...               1.000000   
+
+           label_pod  label_portsweep  label_rootkit    label_satan  \
+count  125973.000000    125973.000000  125973.000000  125973.000000   
+mean        0.001596         0.023267       0.000079       0.028840   
+std         0.039913         0.150751       0.008909       0.167356   
+min         0.000000         0.000000       0.000000       0.000000   
+25%         0.000000         0.000000       0.000000       0.000000   
+50%         0.000000         0.000000       0.000000       0.000000   
+75%         0.000000         0.000000       0.000000       0.000000   
+max         1.000000         1.000000       1.000000       1.000000   
+
+         label_smurf      label_spy  label_teardrop  label_warezclient  \
+count  125973.000000  125973.000000   125973.000000      125973.000000   
+mean        0.021005       0.000016        0.007081           0.007065   
+std         0.143400       0.003985        0.083850           0.083756   
+min         0.000000       0.000000        0.000000           0.000000   
+25%         0.000000       0.000000        0.000000           0.000000   
+50%         0.000000       0.000000        0.000000           0.000000   
+75%         0.000000       0.000000        0.000000           0.000000   
+max         1.000000       1.000000        1.000000           1.000000   
+
+       label_warezmaster  
+count      125973.000000  
+mean            0.000159  
+std             0.012599  
+min             0.000000  
+25%             0.000000  
+50%             0.000000  
+75%             0.000000  
+max             1.000000  
+
+[8 rows x 146 columns]
+(125973, 122)
+(125973, 23)
+float32
+float64
+Input size:
+122
+RBM:  0   122 -> 100
+RBM:  1   100 -> 50
+RBM:  2   50 -> 25
+New RBM:
+Epoch: 0 reconstruction error: 0.014469
+Epoch: 1 reconstruction error: 0.013272
+Epoch: 2 reconstruction error: 0.012920
+Epoch: 3 reconstruction error: 0.012478
+Epoch: 4 reconstruction error: 0.012547
+Epoch: 5 reconstruction error: 0.012079
+Epoch: 6 reconstruction error: 0.012059
+Epoch: 7 reconstruction error: 0.011895
+Epoch: 8 reconstruction error: 0.011804
+Epoch: 9 reconstruction error: 0.011617
+Epoch: 10 reconstruction error: 0.011635
+Epoch: 11 reconstruction error: 0.011594
+Epoch: 12 reconstruction error: 0.011664
+Epoch: 13 reconstruction error: 0.011359
+Epoch: 14 reconstruction error: 0.011514
+Epoch: 15 reconstruction error: 0.011531
+Epoch: 16 reconstruction error: 0.011596
+Epoch: 17 reconstruction error: 0.011518
+Epoch: 18 reconstruction error: 0.011552
+Epoch: 19 reconstruction error: 0.011326
+Epoch: 20 reconstruction error: 0.011523
+Epoch: 21 reconstruction error: 0.011273
+Epoch: 22 reconstruction error: 0.011561
+Epoch: 23 reconstruction error: 0.011378
+Epoch: 24 reconstruction error: 0.011367
+(125973, 100)
+New RBM:
+Epoch: 0 reconstruction error: 0.007806
+Epoch: 1 reconstruction error: 0.007530
+Epoch: 2 reconstruction error: 0.006932
+Epoch: 3 reconstruction error: 0.006757
+Epoch: 4 reconstruction error: 0.006601
+Epoch: 5 reconstruction error: 0.006735
+Epoch: 6 reconstruction error: 0.006618
+Epoch: 7 reconstruction error: 0.006554
+Epoch: 8 reconstruction error: 0.006265
+Epoch: 9 reconstruction error: 0.006459
+Epoch: 10 reconstruction error: 0.006222
+Epoch: 11 reconstruction error: 0.006213
+Epoch: 12 reconstruction error: 0.006228
+Epoch: 13 reconstruction error: 0.006648
+Epoch: 14 reconstruction error: 0.006256
+Epoch: 15 reconstruction error: 0.006608
+Epoch: 16 reconstruction error: 0.006270
+Epoch: 17 reconstruction error: 0.006268
+Epoch: 18 reconstruction error: 0.006238
+Epoch: 19 reconstruction error: 0.006226
+Epoch: 20 reconstruction error: 0.006225
+Epoch: 21 reconstruction error: 0.006455
+Epoch: 22 reconstruction error: 0.006215
+Epoch: 23 reconstruction error: 0.006011
+Epoch: 24 reconstruction error: 0.006067
+(125973, 50)
+New RBM:
+Epoch: 0 reconstruction error: 0.011298
+Epoch: 1 reconstruction error: 0.009228
+Epoch: 2 reconstruction error: 0.007707
+Epoch: 3 reconstruction error: 0.006998
+Epoch: 4 reconstruction error: 0.006753
+Epoch: 5 reconstruction error: 0.006474
+Epoch: 6 reconstruction error: 0.006255
+Epoch: 7 reconstruction error: 0.006064
+Epoch: 8 reconstruction error: 0.005863
+Epoch: 9 reconstruction error: 0.005675
+Epoch: 10 reconstruction error: 0.005663
+Epoch: 11 reconstruction error: 0.005614
+Epoch: 12 reconstruction error: 0.005414
+Epoch: 13 reconstruction error: 0.005353
+Epoch: 14 reconstruction error: 0.005453
+Epoch: 15 reconstruction error: 0.005600
+Epoch: 16 reconstruction error: 0.005523
+Epoch: 17 reconstruction error: 0.005390
+Epoch: 18 reconstruction error: 0.005337
+Epoch: 19 reconstruction error: 0.005187
+Epoch: 20 reconstruction error: 0.005437
+Epoch: 21 reconstruction error: 0.005297
+Epoch: 22 reconstruction error: 0.005153
+Epoch: 23 reconstruction error: 0.005456
+Epoch: 24 reconstruction error: 0.005177
+(125973, 25)
+(125973, 25)
+Classes
+23
+inpX
+(125973, 25)
+Num of features / hidden units. Size of last hidden layer
+25
+Y
+(?, 23)
+Weights:
+[<tf.Variable 'Variable:0' shape=(122, 100) dtype=float32_ref>, <tf.Variable 'Variable_2:0' shape=(100, 50) dtype=float32_ref>, <tf.Variable 'Variable_4:0' shape=(50, 25) dtype=float32_ref>, <tf.Variable 'Variable_6:0' shape=(25, 23) dtype=float32_ref>]
+Biases:
+[<tf.Variable 'Variable_1:0' shape=(100,) dtype=float32_ref>, <tf.Variable 'Variable_3:0' shape=(50,) dtype=float32_ref>, <tf.Variable 'Variable_5:0' shape=(25,) dtype=float32_ref>, <tf.Variable 'Variable_7:0' shape=(23,) dtype=float32_ref>]
+<tf.Variable 'Variable_6:0' shape=(25, 23) dtype=float32_ref>
+<tf.Variable 'Variable_7:0' shape=(23,) dtype=float32_ref>
+Tensor("rnn/transpose:0", shape=(?, 5, 25), dtype=float32)
+Output
+Tensor("Reshape:0", shape=(?, 25), dtype=float32)
+Tensor("add_21:0", shape=(?, 23), dtype=float32)
+optimizer
+name: "Adam"
+op: "NoOp"
+input: "^Adam/update_Variable_6/ApplyAdam"
+input: "^Adam/update_Variable_7/ApplyAdam"
+input: "^Adam/update_rnn/basic_lstm_cell/kernel/ApplyAdam"
+input: "^Adam/update_rnn/basic_lstm_cell/bias/ApplyAdam"
+input: "^Adam/Assign"
+input: "^Adam/Assign_1"
+
+Iter 0, Minibatch Loss= 2.176378, Training Accuracy= 0.44000
+Iter 10000, Minibatch Loss= 0.994617, Training Accuracy= 0.81000
+Iter 20000, Minibatch Loss= 1.166250, Training Accuracy= 0.79000
+Iter 30000, Minibatch Loss= 0.830337, Training Accuracy= 0.80000
+Iter 40000, Minibatch Loss= 0.884983, Training Accuracy= 0.77000
+Iter 50000, Minibatch Loss= 0.830591, Training Accuracy= 0.76000
+Iter 60000, Minibatch Loss= 1.113236, Training Accuracy= 0.76000
+Iter 70000, Minibatch Loss= 1.287033, Training Accuracy= 0.77000
+Iter 80000, Minibatch Loss= 1.382544, Training Accuracy= 0.85000
+Iter 90000, Minibatch Loss= 1.451686, Training Accuracy= 0.75000
+Optimization Finished!
+Testing Accuracy: 0.8184
+Iter 0, Minibatch Loss= 0.727114, Training Accuracy= 0.81000
+Iter 10000, Minibatch Loss= 0.671332, Training Accuracy= 0.85000
+Iter 20000, Minibatch Loss= 0.978721, Training Accuracy= 0.82000
+Iter 30000, Minibatch Loss= 0.681824, Training Accuracy= 0.81000
+Iter 40000, Minibatch Loss= 0.880775, Training Accuracy= 0.81000
+Iter 50000, Minibatch Loss= 0.943731, Training Accuracy= 0.76000
+Iter 60000, Minibatch Loss= 1.668100, Training Accuracy= 0.76000
+Iter 70000, Minibatch Loss= 1.281497, Training Accuracy= 0.77000
+Iter 80000, Minibatch Loss= 0.718725, Training Accuracy= 0.85000
+Iter 90000, Minibatch Loss= 1.155346, Training Accuracy= 0.77000
+Optimization Finished!
+Testing Accuracy: 0.8182
+Iter 0, Minibatch Loss= 0.791351, Training Accuracy= 0.81000
+Iter 10000, Minibatch Loss= 0.932506, Training Accuracy= 0.85000
+Iter 20000, Minibatch Loss= 0.865477, Training Accuracy= 0.82000
+Iter 30000, Minibatch Loss= 0.835240, Training Accuracy= 0.81000
+Iter 40000, Minibatch Loss= 0.964776, Training Accuracy= 0.81000
+Iter 50000, Minibatch Loss= 0.916197, Training Accuracy= 0.76000
+Iter 60000, Minibatch Loss= 0.964224, Training Accuracy= 0.76000
+Iter 70000, Minibatch Loss= 1.831183, Training Accuracy= 0.77000
+Iter 80000, Minibatch Loss= 0.848785, Training Accuracy= 0.85000
+Iter 90000, Minibatch Loss= 1.115903, Training Accuracy= 0.77000
+Optimization Finished!
+Testing Accuracy: 0.854667
+Iter 0, Minibatch Loss= 0.749964, Training Accuracy= 0.91000
+Iter 10000, Minibatch Loss= 4.300140, Training Accuracy= 0.37000
+Iter 20000, Minibatch Loss= 3.313620, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 1.216147, Training Accuracy= 0.52000
+Iter 40000, Minibatch Loss= 1.037974, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 1.294919, Training Accuracy= 0.75000
+Iter 60000, Minibatch Loss= 0.757448, Training Accuracy= 0.85000
+Iter 70000, Minibatch Loss= 1.035565, Training Accuracy= 0.80000
+Iter 80000, Minibatch Loss= 0.868946, Training Accuracy= 0.82000
+Iter 90000, Minibatch Loss= 1.714102, Training Accuracy= 0.80000
+Optimization Finished!
+Testing Accuracy: 0.8301
+Iter 0, Minibatch Loss= 1.040247, Training Accuracy= 0.89000
+Iter 10000, Minibatch Loss= 1.104664, Training Accuracy= 0.83000
+Iter 20000, Minibatch Loss= 1.061829, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 0.692453, Training Accuracy= 0.86000
+Iter 40000, Minibatch Loss= 0.829485, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 1.084916, Training Accuracy= 0.75000
+Iter 60000, Minibatch Loss= 1.015304, Training Accuracy= 0.85000
+Iter 70000, Minibatch Loss= 1.368449, Training Accuracy= 0.80000
+Iter 80000, Minibatch Loss= 1.386088, Training Accuracy= 0.82000
+Iter 90000, Minibatch Loss= 1.225362, Training Accuracy= 0.80000
+Optimization Finished!
+Testing Accuracy: 0.8301
+Iter 0, Minibatch Loss= 0.927031, Training Accuracy= 0.89000
+Iter 10000, Minibatch Loss= 0.832406, Training Accuracy= 0.83000
+Iter 20000, Minibatch Loss= 1.043438, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 0.752644, Training Accuracy= 0.86000
+Iter 40000, Minibatch Loss= 0.913360, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 0.942285, Training Accuracy= 0.75000
+Iter 60000, Minibatch Loss= 0.768700, Training Accuracy= 0.85000
+Iter 70000, Minibatch Loss= 1.842301, Training Accuracy= 0.80000
+Iter 80000, Minibatch Loss= 1.072682, Training Accuracy= 0.82000
+Iter 90000, Minibatch Loss= 1.365292, Training Accuracy= 0.80000
+Optimization Finished!
+Testing Accuracy: 0.8301
+Iter 0, Minibatch Loss= 1.119082, Training Accuracy= 0.89000
+Iter 10000, Minibatch Loss= 1.134850, Training Accuracy= 0.83000
+Iter 20000, Minibatch Loss= 1.053147, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 0.928358, Training Accuracy= 0.86000
+Iter 40000, Minibatch Loss= 1.262246, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 1.046569, Training Accuracy= 0.75000
+Iter 60000, Minibatch Loss= 0.882323, Training Accuracy= 0.85000
+Iter 70000, Minibatch Loss= 2.235875, Training Accuracy= 0.80000
+Iter 80000, Minibatch Loss= 0.934352, Training Accuracy= 0.82000
+Iter 90000, Minibatch Loss= 1.174437, Training Accuracy= 0.80000
+Optimization Finished!
+Testing Accuracy: 0.8301
+Iter 0, Minibatch Loss= 0.950914, Training Accuracy= 0.89000
+Iter 10000, Minibatch Loss= 0.980616, Training Accuracy= 0.83000
+Iter 20000, Minibatch Loss= 1.024977, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 0.782310, Training Accuracy= 0.86000
+Iter 40000, Minibatch Loss= 1.878247, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 1.251528, Training Accuracy= 0.75000
+Iter 60000, Minibatch Loss= 1.018270, Training Accuracy= 0.85000
+Iter 70000, Minibatch Loss= 1.106980, Training Accuracy= 0.80000
+Iter 80000, Minibatch Loss= 1.223245, Training Accuracy= 0.82000
+Iter 90000, Minibatch Loss= 1.108010, Training Accuracy= 0.80000
+Optimization Finished!
+Testing Accuracy: 0.8301
+Iter 0, Minibatch Loss= 0.925617, Training Accuracy= 0.89000
+Iter 10000, Minibatch Loss= 0.869063, Training Accuracy= 0.83000
+Iter 20000, Minibatch Loss= 1.404657, Training Accuracy= 0.76000
+Iter 30000, Minibatch Loss= 0.770850, Training Accuracy= 0.86000
+Iter 40000, Minibatch Loss= 0.918789, Training Accuracy= 0.85000
+Iter 50000, Minibatch Loss= 1.595266, Training Accuracy= 0.39000
+Iter 60000, Minibatch Loss= 3.755325, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 2.170838, Training Accuracy= 0.51000
+Iter 80000, Minibatch Loss= 2.134627, Training Accuracy= 0.05000
+Iter 90000, Minibatch Loss= 2.220737, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.658373, Training Accuracy= 0.41000
+Iter 10000, Minibatch Loss= 1.513637, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.415408, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.383198, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.512409, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.522350, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.442176, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.528933, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.423579, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.779495, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.362495, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.490902, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.456550, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.322468, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.803629, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.485857, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.434299, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.587600, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.434500, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.675327, Training Accuracy= 0.33000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.655922, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.552759, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.407455, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.322780, Training Accuracy= 0.52000
+Iter 40000, Minibatch Loss= 1.642935, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.503904, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.545168, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 1.586819, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.429798, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.699410, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.271532, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.372426, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.358065, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.311284, Training Accuracy= 0.52000
+Iter 40000, Minibatch Loss= 1.972892, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.550784, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.338766, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.384101, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.396945, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.674853, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.636789, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.391600, Training Accuracy= 0.53000
+Iter 20000, Minibatch Loss= 1.477357, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.404282, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 2.106939, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.526888, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.371725, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.223206, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.448455, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.816527, Training Accuracy= 0.33000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.221925, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.391468, Training Accuracy= 0.53000
+Iter 20000, Minibatch Loss= 1.438600, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.373871, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.618903, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.491339, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.378749, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 2.103320, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.937687, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.623050, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.590468, Training Accuracy= 0.41000
+Iter 10000, Minibatch Loss= 1.686198, Training Accuracy= 0.04000
+Iter 20000, Minibatch Loss= 1.596516, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.308974, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.531959, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.510877, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.357514, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 1.589870, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.384863, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.750566, Training Accuracy= 0.33000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.635970, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.733125, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.462278, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.342126, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.968541, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.561288, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.355047, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 2.366148, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.362560, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.751242, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.327788, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.582923, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.350467, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.502565, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.896615, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.550507, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.399078, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.854656, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.348238, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.530940, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.542264, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.434611, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.528729, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.391970, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.562663, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 2.359870, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 6.394187, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 3.588296, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.344475, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 3.003503, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.264699, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.636580, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.531810, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.334754, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.707828, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.506119, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.536584, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 1.920608, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.350851, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.595324, Training Accuracy= 0.33000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.225418, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.510185, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.533350, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.220426, Training Accuracy= 0.52000
+Iter 40000, Minibatch Loss= 1.631143, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.525550, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.508194, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 1.537262, Training Accuracy= 0.51000
+Iter 80000, Minibatch Loss= 1.456255, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.647296, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.760993, Training Accuracy= 0.41000
+Iter 10000, Minibatch Loss= 1.530071, Training Accuracy= 0.53000
+Iter 20000, Minibatch Loss= 1.672387, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.475718, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.972036, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.575433, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.391050, Training Accuracy= 0.44000
+Iter 70000, Minibatch Loss= 1.551140, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.451531, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.542107, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.987630, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.677758, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 2.280661, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.388624, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.776497, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.520814, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.335586, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 1.993462, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.844746, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 2.262853, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.224333, Training Accuracy= 0.48000
+Iter 10000, Minibatch Loss= 1.467498, Training Accuracy= 0.53000
+Iter 20000, Minibatch Loss= 1.611652, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.407057, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 2.961777, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.505988, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.356279, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.826430, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.496043, Training Accuracy= 0.27000
+Iter 90000, Minibatch Loss= 1.695788, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433
+Iter 0, Minibatch Loss= 1.598968, Training Accuracy= 0.41000
+Iter 10000, Minibatch Loss= 1.654263, Training Accuracy= 0.33000
+Iter 20000, Minibatch Loss= 1.647175, Training Accuracy= 0.52000
+Iter 30000, Minibatch Loss= 1.471261, Training Accuracy= 0.36000
+Iter 40000, Minibatch Loss= 1.565779, Training Accuracy= 0.47000
+Iter 50000, Minibatch Loss= 1.520071, Training Accuracy= 0.45000
+Iter 60000, Minibatch Loss= 1.356987, Training Accuracy= 0.43000
+Iter 70000, Minibatch Loss= 2.632623, Training Accuracy= 0.31000
+Iter 80000, Minibatch Loss= 1.619085, Training Accuracy= 0.57000
+Iter 90000, Minibatch Loss= 1.645604, Training Accuracy= 0.49000
+Optimization Finished!
+Testing Accuracy: 0.535433

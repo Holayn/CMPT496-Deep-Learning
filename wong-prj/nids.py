@@ -270,10 +270,10 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        self._learning_rate = param_rnnlstm_learning_rate # orig: 1.0
+        self._learning_rate = float(param_rnnlstm_learning_rate) # orig: .1
         self._momentum = 0.0
         self._training_iters = 100000
-        self._display_step = 100 # orig: 10
+        self._display_step = 10 # orig: 10
         self._epoches = param_rnnlstm_epochs # orig: 25
         self._batchsize = 100
         input_size = X.shape[1]
@@ -310,6 +310,7 @@ class NN(object):
         # n_steps = self._X.shape[1]
         n_steps = 5
         n_input = self._X.shape[1] # 122    no should be 25. last layer
+        print(n_input)
         n_classes = self._Y.shape[1] # 23   is number of classes
         n_hidden = n_input # orig: 25
         print("Classes") # should be 23 classes
