@@ -10,7 +10,7 @@ import tensorflow as tf
 
 import reader
 
-# python lanmod.py <NUMSTEPS> <HIDDENSIZE>
+# python lanmod.py <LEARNRATE> <DECAY> <NUMSTEPS> <HIDDENSIZE>
 
 #Initial weight scale
 init_scale = 0.1
@@ -21,9 +21,9 @@ max_grad_norm = 5
 #The number of layers in our model
 num_layers = 2
 #The total number of recurrence steps, also known as the number of layers when our RNN is "unfolded"
-num_steps = int(sys.argv[2]) # 20
+num_steps = int(sys.argv[3]) # 20
 #The number of processing units (neurons) in the hidden layers
-hidden_size = int(sys.argv[3]) # 200
+hidden_size = int(sys.argv[4]) # 200
 #The maximum number of epochs trained with the initial learning rate
 max_epoch = 4
 #The total number of epochs in training
@@ -32,7 +32,7 @@ max_max_epoch = 13
 #At 1, we ignore the Dropout Layer wrapping.
 keep_prob = 1
 #The decay for the learning rate
-decay = 0.5
+decay = float(sys.argv[2]) # 0.5
 #The size for each batch of data
 batch_size = 30 # orig: 1
 #The size of our vocabulary
