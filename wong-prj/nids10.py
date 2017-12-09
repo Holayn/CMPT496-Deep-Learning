@@ -4,7 +4,9 @@ from __future__ import absolute_import
 import time
 from os.path import join as pjoin
 
+#Numpy contains helpful functions for efficient mathematical calculations
 import numpy as np
+#Tensorflow library. Used to implement machine learning models
 import tensorflow as tf
 from data import fill_feed_dict_ae, read_data_sets_pretraining
 from data import read_data_sets, fill_feed_dict
@@ -15,19 +17,35 @@ from utils import tile_raster_images
 
 #Import the math function for calculations
 import math
-#Tensorflow library. Used to implement machine learning models
-import tensorflow as tf
-#Numpy contains helpful functions for efficient mathematical calculations
-import numpy as np
 #Image library for image manipulation
 from PIL import Image
 import sys
-#import Image
 #Utils file
 from utils import tile_raster_images
 
 ######
 import pandas as pd
+
+# python nids.py <RBM1> <RBM2> <RBM3> <RBMEPOCHS> <RBMLEARNRATE> <RNNLEARNRATE> <RNNEOPCHS> <TESTSET>
+
+# PARAMETERS FOR RBM
+param_rbm_hidden_sizes = []
+
+if int(sys.argv[3]) == 0:
+    # 2 layers
+    param_rbm_hidden_sizes = [int(sys.argv[1]), int(sys.argv[2])]
+else:
+    # 3 layers
+    param_rbm_hidden_sizes = [int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])]
+
+param_rbm_epochs = int(sys.argv[4])
+param_rbm_learning_rate = float(sys.argv[5])
+
+# PARAMETERS FOR RNN/LSTM
+param_rnnlstm_learning_rate = float(sys.argv[6])
+param_rnnlstm_epochs = int(sys.argv[7])
+
+
 
 
 # READING IN DATA AND CONVERTING TO 1HE: 
@@ -35,20 +53,11 @@ import pandas as pd
 # http://fastml.com/converting-categorical-data-into-numbers-with-pandas-and-scikit-learn/
 
 # # Define the headers since the data does not have any
-# headers = ["symboling", "normalized_losses", "make", "fuel_type", "aspiration",
-#            "num_doors", "body_style", "drive_wheels", "engine_location",
-#            "wheel_base", "length", "width", "height", "curb_weight",
-#            "engine_type", "num_cylinders", "engine_size", "fuel_system",
-#            "bore", "stroke", "compression_ratio", "horsepower", "peak_rpm",
-#            "city_mpg", "highway_mpg", "price"]
-
 headers = ["duration","protocol_type","service","flag","src_bytes","dst_bytes","land","wrong_fragment","urgent","hot","num_failed_logins","logged_in","num_compromised","root_shell","su_attempted","num_root","num_file_creations","num_shells","num_access_files","num_outbound_cmds","is_host_login","is_guest_login","count","srv_count","serror_rate","srv_serror_rate","rerror_rate","srv_rerror_rate","same_srv_rate","diff_srv_rate","srv_diff_host_rate","dst_host_count","dst_host_srv_count","dst_host_same_srv_rate","dst_host_diff_srv_rate","dst_host_same_src_port_rate","dst_host_srv_diff_host_rate","dst_host_serror_rate","dst_host_srv_serror_rate","dst_host_rerror_rate","dst_host_srv_rerror_rate","label","idk"]
 
 # Read in the CSV file and convert "?" to NaN
 df = pd.read_csv("KDDTrain+.csv",
                   header=None, names=headers, na_values="?" )
-
-# df.to_csv("nidsOrig.csv")
 
 # print(df.head())
 print(df.dtypes)
@@ -87,13 +96,11 @@ for col in cols:
     # df_X[col] = df_X[col] * 255.0
 
 print("After conversions")
-print(df_X)
-print(df_Y)
+# print(df_X)
+# print(df_Y)
 print(df_with_dummies.describe())
 
 trX = df_X.as_matrix()
-# trX.to_csv("nids5.csv")
-# np.savetxt("nids8.csv", trX, delimiter=",")
 trY = df_Y.as_matrix()
 trX = trX.astype(np.float32)
 trY = trY.astype(np.float64)
@@ -101,9 +108,9 @@ print(trX.shape)
 print(trY.shape)
 print(trX.dtype)
 print(trY.dtype)
+# 122 features
 
 # write into csv
-# df_X.to_csv("nids4.csv")
 # trX is a row, image converted into vector
 # Take data and put into autoencoder
 # in data processing, need to normalize data (zscore)
@@ -120,8 +127,8 @@ class RBM(object):
         #Defining the hyperparameters
         self._input_size = input_size #Size of input
         self._output_size = output_size #Size of output
-        self.epochs = 25 #Amount of training iterations
-        self.learning_rate = 1.0 #The step used in gradient descent
+        self.epochs = param_rbm_epochs #Amount of training iterations orig: 25
+        self.learning_rate = param_rbm_learning_rate #The step used in gradient descent orig: 1.0
         self.batchsize = 100 #The size of how much data will be used for training per sub iteration
 
         #Initializing weights and biases as matrices full of zeroes
@@ -208,32 +215,10 @@ class RBM(object):
             sess.run(tf.global_variables_initializer())
             return sess.run(out)
 
-#Getting the MNIST data provided by Tensorflow
-# from tensorflow.examples.tutorials.mnist import input_data
-
-# #Loading in the mnist data
-# mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-# trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images,\
-#     mnist.test.labels
-
 # print(trX.shape) # rows x features
 # print(trY.shape) # classes. 10 digits
 # print(trX.dtype) # float 32
 # print(trY.dtype) # float 64
-
-# import time
-# time.sleep(100)
-
-#Load in our data
-# data = read_data_sets(FLAGS.data_dir, 
-#                           sub['tr'], sub['te'], sub['val'],
-#                           one_hot=False)
-
-# labels_placeholder = tf.placeholder(tf.int32,
-#                                         shape=FLAGS.batch_size,
-#                                         name='target_pl')
-
-# trX, trY = data.train, labels_placeholder
 
 # RBM_hidden_sizes = [neurons1, neurons2]
 # 50 epochs for each rbm
@@ -242,8 +227,8 @@ class RBM(object):
 # RBM_hidden_sizes = [40,20,10]
 # RBM_hidden_sizes = [10,5]
 # RBM_hidden_sizes = [40,25]
-# RBM_hidden_sizes = [100,50,25]
-RBM_hidden_sizes = [100,50,25]
+# RBM_hidden_sizes = [100,25]
+RBM_hidden_sizes = param_rbm_hidden_sizes # parameterized
 
 # of last layer of RBM should be same as number of classes or greater
 
@@ -274,12 +259,7 @@ for rbm in rbm_list:
     print(inpX.shape)
 
 print(inpX.shape)
-trX = inpX # ?
-
-import numpy as np
-import math
-import tensorflow as tf
-
+trX = inpX
 
 class NN(object):
 
@@ -290,11 +270,10 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        self._learning_rate =  1.0
-        self._momentum = 0.0
+        self._learning_rate = param_rnnlstm_learning_rate # orig: 1.0
         self._training_iters = 100000
-        self._display_step = 10
-        self._epoches = 25
+        self._display_step = 100 # orig: 10
+        self._epoches = param_rnnlstm_epochs # orig: 25
         self._batchsize = 100
         input_size = X.shape[1]
 
@@ -325,7 +304,180 @@ class NN(object):
             self.w_list[i] = rbm_list[i].w
             self.b_list[i] = rbm_list[i].hb
 
-    #Training method - Original shallow NN
+    #Training method
+    def train(self):
+        # n_steps = self._X.shape[1]
+        # n_steps = 5
+        n_steps = 7
+        n_input = self._X.shape[1] # 122    no should be 25. last layer
+        n_classes = self._Y.shape[1] # 23   is number of classes
+        n_hidden = n_input # orig: 25
+        print("Classes") # should be 23 classes
+        print(n_classes)
+        #Create placeholders for input, weights, biases, output
+        _a = [None] * (len(self._sizes) + 2)
+        _w = [None] * (len(self._sizes) + 1)
+        _b = [None] * (len(self._sizes) + 1)
+        # _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
+        # _a[0] = tf.placeholder(dtype="float", shape=[None, n_steps, n_input], name="x") # (batchsize, steps, input) (?, 122, 122)
+        # = to output rbm
+        # inpX = []
+
+        # get ouput from RBM
+        # for rbm in rbm_list:
+        #     #Return the output layer
+        #     inpX = rbm.rbm_outpt(inpX)
+        # inpX = self._X
+        
+        x = tf.placeholder(dtype="float", shape=[None, n_steps, 7], name="x") # 5 is supposed to be n_input
+        y = tf.placeholder(dtype="float", shape=[None, n_classes], name="y") # num of classes
+        print("inpX")
+        print(self._X.shape)
+        print("Num of features / hidden units. Size of last hidden layer")
+        print(self._sizes[(len(self._sizes)-1)]) # hidden units num of features. how many hidden units to be in RBM?
+        print("Y")
+        print(y.shape) # rows x 23
+        # n_hidden = self._sizes[(len(self._sizes)-1)]
+
+        # Get weights and biases from RBM
+        #Define variables and activation function
+        for i in range(len(self._sizes) + 1):
+            _w[i] = tf.Variable(self.w_list[i])
+            _b[i] = tf.Variable(self.b_list[i])
+        
+        print("Weights:")
+        print(_w)
+        print("Biases:")
+        print(_b)
+
+        # Load in weights and biases from the last layer in the RBM
+        weights = {
+            'out': _w[(len(self._sizes))] # last layer
+        }
+        biases = {
+            'out': _b[(len(self._sizes))] # last layer
+        }
+        print(weights['out'])
+        print(biases['out'])
+
+        lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0) # construct with hidden size of last layer in rbm
+
+        # num_layers = 3
+        # state_size = 100
+        # embeddings = tf.get_variable('embedding_matrix', [n_classes, state_size])
+        # rnn_inputs = [tf.squeeze(i) for i in tf.split(1,
+        #                             n_steps, tf.nn.embedding_lookup(embeddings, x))]
+        # cell = tf.nn.rnn_cell.LSTMCell(n_hidden, state_is_tuple=True)
+        # cell = tf.nn.rnn_cell.MultiRNNCell([cell] * num_layers, state_is_tuple=True)
+
+        # stacked_lstm = tf.contrib.rnn.MultiRNNCell([lstm_cell] * num_layers)
+
+        # initial_state = stacked_lstm.zero_state(self._batchsize, tf.float32)
+
+        # outputs, states = tf.nn.dynamic_rnn(stacked_lstm, inputs=x, dtype=tf.float32)
+        # outputs, states = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, dtype=tf.float32, initial_state=initial_state)
+        outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
+        print(outputs) # (?, 122, 122)
+
+        # reshaping, take 5 at a time
+        # originally took 28 x 28
+        # 1 x 28 at time
+        # 5 pieces at a time
+        # so reshape to 1 x 5
+
+        # take vector, output into columns of 5
+
+        # for i in range(1, len(self._sizes) + 2):
+        output = tf.reshape(tf.split(outputs, n_steps, axis=1, num=None, name='split')[-1],[-1,n_hidden]) # x.shape is input
+        print("Output")
+        print(output)
+        # print("Weight shape")
+        # print(_w[i - 1].shape)
+        pred = tf.matmul(output, weights['out']) + biases['out'] # linear activation to map it to a [?xclasses] [classes = 23]
+        print(pred)
+        # define cost function
+        cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=pred ))
+        # define training operation (adam optimizer minimizing cost function)
+        optimizer = tf.train.AdamOptimizer(learning_rate=self._learning_rate).minimize(cost)
+        print("optimizer")
+        print(optimizer)
+
+        # prediction operation
+        correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
+        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+        init = tf.global_variables_initializer()
+
+        with tf.Session() as sess:
+            sess.run(init)
+            step = 0
+            # test = 5000 # we use the last 5,000 as test
+            test = 12000 # we test on 1/10th of the dataset
+            sectionToTest = int(sys.argv[8])
+            # Keep training until reach max iterations
+            start = 0
+            end = 100
+            # while step * self._batchsize < self._training_iters:
+            #For each epoch
+            for i in range(self._epoches):
+                # Test from 0 to lower bound of test section
+                while (step * self._batchsize < len(self._X)-1825): # len(self._X):sectionToTest*test
+
+                    # Skip test set
+                    while (step * self._batchsize > test*sectionToTest) and (step * self._batchsize < test*(sectionToTest+1)):
+                        start += 100
+                        end += 100
+                        step += 1
+
+                    # print(len(self._X)-test)
+                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 7))
+                    batch_y = np.asarray(self._Y[start:end])
+                    sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
+                    if step % self._display_step == 0:
+                        # Calculate batch accuracy
+                        acc = sess.run(accuracy, feed_dict={
+                        x: batch_x, y: batch_y})
+                        # Calculate batch loss
+                        loss = sess.run(cost, feed_dict={
+                        x: batch_x, y: batch_y})
+                        print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
+                            "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                            "{:.5f}".format(acc))
+
+                    start += 100
+                    end += 100
+                    step += 1
+                    
+
+                    for j in range(len(self._sizes) + 1):
+                        #Retrieve weights and biases
+                        self.w_list[j] = sess.run(_w[j])
+                        self.b_list[j] = sess.run(_b[j])
+
+                print("Optimization Finished!")
+
+                # Test
+                start = sectionToTest*test
+                end = (sectionToTest+1)*test
+                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 7)) # (batchsize, n_steps, 5)
+                test_label = np.asarray(self._Y[start:end])
+                
+                #Run the training operation on the input data
+
+                print("Testing Accuracy:", \
+                sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+
+                # Reset to run next epoch
+                step = 0
+                start = 0
+                end = 100
+
+nNet = NN(RBM_hidden_sizes, trX, trY)
+nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
+nNet.train()
+
+
+#Training method - Original shallow NN
     # def train(self):
     #     #Create placeholders for input, weights, biases, output
     #     _a = [None] * (len(self._sizes) + 2)
@@ -378,144 +530,7 @@ class NN(object):
     #                           sess.run(predict_op, feed_dict={_a[0]: self._X, y: self._Y}))))
 
 
-    #Training method
-    def train(self):
-        # n_steps = self._X.shape[1]
-        n_steps = 5
-        n_input = self._X.shape[1] # 122    no should be 25. last layer
-        n_classes = self._Y.shape[1] # 23   is number of classes
-        # n_hidden = 122
-        n_hidden = 25
-        print("Classes") # should be 23 classes
-        print(n_classes)
-        #Create placeholders for input, weights, biases, output
-        _a = [None] * (len(self._sizes) + 2)
-        _w = [None] * (len(self._sizes) + 1)
-        _b = [None] * (len(self._sizes) + 1)
-        # _a[0] = tf.placeholder("float", [None, self._X.shape[1]])
-        # _a[0] = tf.placeholder(dtype="float", shape=[None, n_steps, n_input], name="x") # (batchsize, steps, input) (?, 122, 122)
-        # = to output rbm
-        # inpX = []
 
-        # get ouput from RBM
-        # for rbm in rbm_list:
-        #     #Return the output layer
-        #     inpX = rbm.rbm_outpt(inpX)
-        # inpX = self._X
-        
-        # _a[0] = inpX
-        x = tf.placeholder(dtype="float", shape=[None, n_steps, 5], name="x") # 5 is supposed to be n_input
-        y = tf.placeholder(dtype="float", shape=[None, n_classes], name="y") # num of classes
-        # y = self._Y
-        print("inpX")
-        print(self._X.shape)
-        # print(_a[0].shape) # rows x 122
-        print("Num of features / hidden units. Size of last hidden layer")
-        print(self._sizes[(len(self._sizes)-1)]) # hidden units num of features. how many hidden units to be in RBM?
-        print("Y")
-        print(y.shape) # rows x 23
-        # n_hidden = self._sizes[(len(self._sizes)-1)]
-
-        # Get weights and biases from RBM
-        #Define variables and activation function
-        for i in range(len(self._sizes) + 1):
-            _w[i] = tf.Variable(self.w_list[i])
-            _b[i] = tf.Variable(self.b_list[i])
-        
-        print("Weights:")
-        print(_w)
-        print("Biases:")
-        print(_b)
-
-        # Initialize weights randomly, but we will load in from the RBM anyways. RBM got weights and biases already
-        # weights = {
-        #     'out': tf.Variable(tf.random_normal([self._sizes[1], self._Y.shape[1]]))
-        # }
-        # biases = {
-        #     'out': tf.Variable(tf.random_normal([self._Y.shape[1]]))
-        # }
-        weights = {
-            'out': _w[(len(self._sizes))] # last layer
-        }
-        biases = {
-            'out': _b[(len(self._sizes))] # last layer
-        }
-        print(weights['out'])
-        print(biases['out'])
-
-        lstm_cell = tf.contrib.rnn.BasicLSTMCell(n_hidden, forget_bias=1.0) # construct with hidden size of last layer in rbm
-
-        outputs, states = tf.nn.dynamic_rnn(lstm_cell, inputs=x, dtype=tf.float32)
-        print(outputs) # (?, 122, 122)
-
-        # reshaping, take 5 at a time
-        # originally took 28 x 28
-        # 1 x 28 at time
-        # 5 pieces at a time
-        # so reshape to 1 x 5
-
-        # take vector, output into columns of 5
-
-        # for i in range(1, len(self._sizes) + 2):
-        output = tf.reshape(tf.split(outputs, n_steps, axis=1, num=None, name='split')[-1],[-1,n_hidden]) # x.shape is input
-        print("Output")
-        print(output)
-        # print("Weight shape")
-        # print(_w[i - 1].shape)
-        pred = tf.matmul(output, weights['out']) + biases['out'] # linear activation to map it to a [?xclasses] [classes = 23] THIS IS NOT RIGHT. NEED TO CREATE PROPER 
-        print(pred)
-        # define cost function
-        cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=pred ))
-        # define training operation (adam optimizer minimizing cost function)
-        optimizer = tf.train.AdamOptimizer(learning_rate=self._learning_rate).minimize(cost)
-        print("optimizer")
-        print(optimizer)
-
-        # prediction operation
-        correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
-        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
-
-        init = tf.global_variables_initializer()
-
-        with tf.Session() as sess:
-            sess.run(init)
-            step = 0
-            test = 1000 # we use the last 5,000 as test
-            # Keep training until reach max iterations
-            start = 0
-            end = 100
-            # while step * self._batchsize < self._training_iters:
-            while step * self._batchsize < len(self._X)-test:
-
-                # print(len(self._X)-test)
-                batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
-                batch_y = np.asarray(self._Y[start:end])
-                sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
-                if step % self._display_step == 0:
-                    # # Calculate batch accuracy
-                    # acc = sess.run(accuracy, feed_dict={
-                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
-                    # # Calculate batch loss
-                    # loss = sess.run(cost, feed_dict={
-                    #     x[0]: self._X[start:end], y: self._Y[start:end]})
-                    # Calculate batch accuracy
-                    acc = sess.run(accuracy, feed_dict={
-                    x: batch_x, y: batch_y})
-                    # Calculate batch loss
-                    loss = sess.run(cost, feed_dict={
-                    x: batch_x, y: batch_y})
-                    print("Iter " + str(step*self._batchsize) + ", Minibatch Loss= " + \
-                        "{:.6f}".format(loss) + ", Training Accuracy= " + \
-                        "{:.5f}".format(acc))
-
-                start += 100
-                end += 100
-                step += 1
-
-                for j in range(len(self._sizes) + 1):
-                    #Retrieve weights and biases
-                    self.w_list[j] = sess.run(_w[j])
-                    self.b_list[j] = sess.run(_b[j])
 
                 #For each step
                 # for start, end in zip(
@@ -567,23 +582,28 @@ class NN(object):
                 
                 
 
-            print("Optimization Finished!")
+            # print("Optimization Finished!")
 
             # for start, end in zip(
             #     range(len(self._X)-test, len(self._X), self._batchsize), range(self._batchsize, len(self._X), self._batchsize)):
             #     test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
             #     test_label = np.asarray(self._Y[start:end])
-            while step * self._batchsize < len(self._X):
-                test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
-                test_label = np.asarray(self._Y[start:end])
-                
-                #Run the training operation on the input data
+            # while step * self._batchsize < len(self._X):
+            # start = len(self._X)-test
+            # end = len(self._X)
+            # print(start)
+            # print(end)
+            # # test_data = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+            # test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5))
+            # test_label = np.asarray(self._Y[start:end])
+            
+            # #Run the training operation on the input data
 
-                print("Testing Accuracy:", \
-                sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
-                start += 100
-                end += 100
-                step += 1
+            # print("Testing Accuracy:", \
+            # sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+                # start += 100
+                # end += 100
+                # step += 1
 
             # Calculate accuracy on test data
             # load in test data... have to perform transformations again
@@ -632,9 +652,9 @@ class NN(object):
             #     sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
 
-nNet = NN(RBM_hidden_sizes, trX, trY)
-nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
-nNet.train()
+# nNet = NN(RBM_hidden_sizes, trX, trY)
+# nNet.load_from_rbms(RBM_hidden_sizes,rbm_list)
+# nNet.train()
 
 
 

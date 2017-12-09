@@ -270,10 +270,9 @@ class NN(object):
         self._Y = Y
         self.w_list = []
         self.b_list = []
-        self._learning_rate = float(param_rnnlstm_learning_rate) # orig: .1
-        self._momentum = 0.0
+        self._learning_rate = param_rnnlstm_learning_rate # orig: 1.0
         self._training_iters = 100000
-        self._display_step = 10 # orig: 10
+        self._display_step = 100 # orig: 10
         self._epoches = param_rnnlstm_epochs # orig: 25
         self._batchsize = 100
         input_size = X.shape[1]
@@ -308,9 +307,9 @@ class NN(object):
     #Training method
     def train(self):
         # n_steps = self._X.shape[1]
-        n_steps = 5
+        n_steps = 7
+        # n_steps = 10
         n_input = self._X.shape[1] # 122    no should be 25. last layer
-        print(n_input)
         n_classes = self._Y.shape[1] # 23   is number of classes
         n_hidden = n_input # orig: 25
         print("Classes") # should be 23 classes
@@ -330,7 +329,7 @@ class NN(object):
         #     inpX = rbm.rbm_outpt(inpX)
         # inpX = self._X
         
-        x = tf.placeholder(dtype="float", shape=[None, n_steps, 5], name="x") # 5 is supposed to be n_input
+        x = tf.placeholder(dtype="float", shape=[None, n_steps, 7], name="x") # 5 is supposed to be n_input
         y = tf.placeholder(dtype="float", shape=[None, n_classes], name="y") # num of classes
         print("inpX")
         print(self._X.shape)
@@ -424,7 +423,7 @@ class NN(object):
                 while step * self._batchsize < len(self._X)-test:
 
                     # print(len(self._X)-test)
-                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 5))
+                    batch_x = np.asarray(self._X[start:end]).reshape((self._batchsize, n_steps, 7))
                     batch_y = np.asarray(self._Y[start:end])
                     sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
                     if step % self._display_step == 0:
@@ -452,7 +451,7 @@ class NN(object):
                 # Test
                 start = len(self._X)-test
                 end = len(self._X)
-                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 5)) # (batchsize, n_steps, 5)
+                test_data = np.asarray(self._X[start:end]).reshape((start-end, n_steps, 7)) # (batchsize, n_steps, 5)
                 test_label = np.asarray(self._Y[start:end])
                 
                 #Run the training operation on the input data
