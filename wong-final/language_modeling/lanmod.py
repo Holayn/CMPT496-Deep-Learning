@@ -11,7 +11,7 @@ import tensorflow as tf
 import reader
 import sys
 
-# python lanmod.py <LEARNRATE> <DECAY> <NUMSTEPS> <HIDDENSIZE>
+# python lanmod.py <LEARNRATE> <DECAY> <NUMSTEPS> <HIDDENSIZE> <KEEPPROB>
 
 #Initial weight scale
 init_scale = 0.1
@@ -28,10 +28,10 @@ hidden_size = int(sys.argv[4]) # 200
 #The maximum number of epochs trained with the initial learning rate
 max_epoch = 4
 #The total number of epochs in training
-max_max_epoch = 13
+max_max_epoch = 18 # 13
 #The probability for keeping data in the Dropout Layer (This is an optimization, but is outside our scope for this lab! indecision)
 #At 1, we ignore the Dropout Layer wrapping.
-keep_prob = 1
+keep_prob = float(sys.argv[5]) # 1
 #The decay for the learning rate
 decay = float(sys.argv[2]) # 0.5
 #The size for each batch of data
@@ -71,7 +71,8 @@ class PTBModel(object):
         # The argument n_hidden(size=200) of BasicLSTMCell is size of hidden layer, that is, the number of hidden units of the LSTM (inside A).
         # Size is the same as the size of our hidden layer, and no bias is added to the Forget Gate. 
         # LSTM cell processes one word at a time and computes probabilities of the possible continuations of the sentence.
-        lstm_cell = tf.contrib.rnn.BasicLSTMCell(size, forget_bias=0.0)
+        # lstm_cell = tf.contrib.rnn.BasicLSTMCell(size, forget_bias=0.0)
+        lstm_cell = tf.contrib.rnn.BasicLSTMCell(size, forget_bias=1.0)
         
         # Unless you changed keep_prob, this won't actually execute -- this is a dropout wrapper for our LSTM unit
         # This is an optimization of the LSTM output, but is not needed at all
