@@ -273,7 +273,7 @@ def get_word(session, m, primer, words_len, eval_op, word_to_id, verbose=False):
                                   m.initial_state: state})
     out = proba[-1,:]
     idx_out = np.argmax(out)
-    for a_word, word_index in word_to_id.iteritems():
+    for a_word, word_index in word_to_id.items():
         if word_index == idx_out:
             words_out.append(a_word)
             break
@@ -304,7 +304,7 @@ def get_word(session, m, primer, words_len, eval_op, word_to_id, verbose=False):
 
         out = proba[-1,:]
         idx_out = np.argmax(out)
-        for a_word, word_index in word_to_id.iteritems():
+        for a_word, word_index in word_to_id.items():
             if word_index == idx_out:
                 words_out.append(a_word)
     
